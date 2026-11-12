@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>בית בלי חפירות</title>
+  <meta name="description" content="המדריך הפשוט והמצחיק לצעירים שרוצים לחסוך, לתכנן ולקנות דירה בישראל, או לגור ביאכטה. עם מחשבונים פשוטים.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-section="home">
+  <header id="site-header"></header>
+
+  <main class="wrap">
+    <section class="hero">
+      <span class="kicker">דירה בישראל? כן, באמת 🤯</span>
+      <h1>להגיע לבית <span class="highlight">בלי לאבד את השפיות.</span></h1>
+      <p class="lead">המדריך לצעירים שרוצים לחסוך, לתכנן, ובסוף גם לקבל מפתח.
+        או לגור ביאכטה. גם זה בסדר, אנחנו לא שופטים.</p>
+    </section>
+
+    <section>
+      <form class="card calc" data-calc="savings" aria-labelledby="savings-title">
+        <div class="calc-head"><span class="emoji" aria-hidden="true">⏳</span>
+          <h2 id="savings-title">כמה זמן ייקח לי לחסוך להון עצמי?</h2></div>
+        <div class="fields">
+          <div class="field">
+            <label for="s-price">מחיר הדירה שאתם חולמים עליה (₪)</label>
+            <input id="s-price" name="price" type="number" inputmode="numeric" min="0" step="10000" value="1800000">
+          </div>
+          <div class="field">
+            <label for="s-pct">מי אתם? <span class="hint">(קובע כמה הון עצמי צריך)</span></label>
+            <select id="s-pct" name="pct">
+              <option value="25" selected>דירה ראשונה: 25%</option>
+              <option value="30">משפרי דיור: 30%</option>
+              <option value="50">משקיעים / דירה נוספת: 50%</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="s-saved">כמה כבר חסכתם (₪)</label>
+            <input id="s-saved" name="saved" type="number" inputmode="numeric" min="0" step="1000" value="50000">
+          </div>
+          <div class="field">
+            <label for="s-monthly">כמה אתם חוסכים בחודש (₪)</label>
+            <input id="s-monthly" name="monthly" type="number" inputmode="numeric" min="0" step="100" value="3000">
+          </div>
+          <div class="field">
+            <label for="s-ret">תשואה שנתית על החיסכון (%) <span class="hint">(עו״ש = 0, השקעה סולידית ≈ 3–5)</span></label>
+            <input id="s-ret" name="ret" type="number" inputmode="decimal" min="0" max="15" step="0.5" value="4">
+          </div>
+        </div>
+        <div class="result" aria-live="polite">
+          <span class="label">תגיעו ליעד בעוד</span>
+          <span class="big" data-out="big"></span>
+          <p class="quip" data-out="quip"></p>
+          <div class="row"><span data-out="target"></span></div>
+          <div class="row"><span data-out="boost"></span></div>
+        </div>
+        <p class="assumptions">הנחות: עלויות נלוות (עו״ד, שמאי, תיווך וכו׳) כ־3% מהמחיר. המחיר לא עולה בזמן שאתם חוסכים (אופטימי, אנחנו יודעים).</p>
+      </form>
+    </section>
+
+    <section>
+      <h2>שלוש דלתות. תבחרו אחת.</h2>
+      <div class="doors">
+        <a class="door bg-sun" href="basics.html">
+          <span class="emoji" aria-hidden="true">🧱</span>
+          <h3>עקרונות יסוד</h3>
+          <p>לחסוך, לממן, לקנות. שלושה צעדים, בלי ז׳רגון של בנקאים.</p>
+          <span class="go">יאללה ←</span>
+        </a>
+        <a class="door bg-mint" href="alt.html">
+          <span class="emoji" aria-hidden="true">🛥️</span>
+          <h3>דרכים אחרות לחיות</h3>
+          <p>יאכטה, קיבוץ, שכירות חכמה ומענקים שלא ידעתם שמגיעים לכם.</p>
+          <span class="go">תפתיעו אותי ←</span>
+        </a>
+        <a class="door bg-sky" href="tricks.html">
+          <span class="emoji" aria-hidden="true">⚡</span>
+          <h3>טריקים במשפט</h3>
+          <p>משפט אחד. רעיון אחד. אפס חפירות. אחד מהם יחסוך לכם אלפים.</p>
+          <span class="go">תנו טריק ←</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer id="site-footer"></footer>
+  <script src="assets/app.js"></script>
+</body>
+</html>

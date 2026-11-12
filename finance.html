@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>משכנתא בלי פאניקה</title>
+  <meta name="description" content="מה זה משכנתא, כמה דירה אפשר להרשות לעצמכם וכמה תחזירו בחודש. עם מחשבונים פשוטים.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-section="basics">
+  <header id="site-header"></header>
+
+  <main class="wrap">
+    <div class="page-intro">
+      <div class="crumb"><a href="index.html">בית</a> / <a href="basics.html">עקרונות יסוד</a> / לממן</div>
+      <h1>🏦 משכנתא בלי פאניקה</h1>
+      <p class="lead">משכנתא היא לא מפלצת. היא הלוואה גדולה מאוד עם שם מפחיד. בואו נפרק אותה.</p>
+    </div>
+
+    <ol class="points">
+      <li class="card point">
+        <h2>מה זה בכלל?</h2>
+        <p>הלוואה שמחולקת ל״מסלולים״. כל מסלול מתנהג אחרת:</p>
+        <ul>
+          <li><b>פריים:</b> זז עם הריבית של בנק ישראל. היום זול, מחר אולי לא.</li>
+          <li><b>קבועה לא צמודה (קל״צ):</b> ההחזר לא משתנה לעולם. יציב, ובדרך כלל קצת יקר יותר.</li>
+          <li><b>צמודה למדד:</b> נראית זולה, אבל החוב עצמו גדל עם האינפלציה. זאב בעור של כבש. 🐺</li>
+        </ul>
+        <p>מתחילים מ<b>אישור עקרוני</b> בכמה בנקים, משווים הצעות ומתמקחים. כן, מותר להתמקח עם בנק.</p>
+      </li>
+
+      <li class="card point">
+        <form class="calc" data-calc="afford" aria-labelledby="afford-title">
+          <div class="calc-head"><span class="emoji" aria-hidden="true">🧮</span>
+            <h2 id="afford-title">כמה דירה אני יכול להרשות לעצמי?</h2></div>
+          <div class="fields">
+            <div class="field">
+              <label for="a-income">הכנסה נטו של משק הבית בחודש (₪)</label>
+              <input id="a-income" name="income" type="number" inputmode="numeric" min="0" step="500" value="16000">
+            </div>
+            <div class="field">
+              <label for="a-equity">הון עצמי (₪)</label>
+              <input id="a-equity" name="equity" type="number" inputmode="numeric" min="0" step="10000" value="450000">
+            </div>
+            <div class="field">
+              <label for="a-share">כמה מההכנסה הולך להחזר? <span class="hint">(מומלץ עד שליש)</span></label>
+              <div class="range-row">
+                <input id="a-share" name="share" type="range" min="20" max="45" step="1" value="30">
+                <output name="shareOut" for="a-share">30%</output>
+              </div>
+            </div>
+            <div class="field">
+              <label for="a-buyer">מי אתם?</label>
+              <select id="a-buyer" name="buyer">
+                <option value="25" selected>דירה ראשונה (מימון עד 75%)</option>
+                <option value="30">משפרי דיור (מימון עד 70%)</option>
+                <option value="50">משקיעים (מימון עד 50%)</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="a-rate">ריבית ממוצעת (%)</label>
+              <input id="a-rate" name="rate" type="number" inputmode="decimal" min="0" max="15" step="0.1" value="4.5">
+            </div>
+            <div class="field">
+              <label for="a-years">לכמה שנים</label>
+              <input id="a-years" name="years" type="number" inputmode="numeric" min="5" max="30" step="1" value="25">
+            </div>
+          </div>
+          <div class="result" aria-live="polite">
+            <span class="label">דירה עד בערך</span>
+            <span class="big" data-out="big"></span>
+            <div class="row" data-out="row"></div>
+            <p class="quip" data-out="quip"></p>
+          </div>
+          <p class="assumptions">הערכה גסה בלבד. הבנק בודק גם התחייבויות אחרות, יציבות תעסוקתית ועוד. בנק ישראל לא מאפשר החזר מעל 50% מההכנסה, ומעל 40% כבר נחשב מסוכן.</p>
+        </form>
+      </li>
+
+      <li class="card point">
+        <form class="calc" data-calc="mortgage" aria-labelledby="mort-title">
+          <div class="calc-head"><span class="emoji" aria-hidden="true">📆</span>
+            <h2 id="mort-title">כמה אחזיר בחודש?</h2></div>
+          <div class="fields">
+            <div class="field">
+              <label for="m-loan">גובה המשכנתא (₪)</label>
+              <input id="m-loan" name="loan" type="number" inputmode="numeric" min="0" step="10000" value="1200000">
+            </div>
+            <div class="field">
+              <label for="m-rate">ריבית (%)</label>
+              <input id="m-rate" name="rate" type="number" inputmode="decimal" min="0" max="15" step="0.1" value="4.5">
+            </div>
+            <div class="field">
+              <label for="m-years">לכמה שנים</label>
+              <input id="m-years" name="years" type="number" inputmode="numeric" min="1" max="30" step="1" value="25">
+            </div>
+          </div>
+          <div class="result" aria-live="polite">
+            <span class="label">החזר חודשי</span>
+            <span class="big" data-out="big"></span>
+            <div class="row" data-out="row"></div>
+            <p class="quip" data-out="quip"></p>
+          </div>
+          <p class="assumptions">חישוב לפי לוח שפיצר (החזר קבוע), בלי הצמדה למדד. טיפ: נסו לשנות 25 שנה ל־20 ותראו כמה ריבית נחסכת.</p>
+        </form>
+      </li>
+    </ol>
+
+    <section class="side-door">
+      <p>יש מימון? עכשיו לחלק המלחיץ: לבדוק ולחתום 🔑</p>
+      <a class="btn" href="buy.html">לקנות ←</a>
+    </section>
+  </main>
+
+  <footer id="site-footer"></footer>
+  <script src="assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>לשכור בחוכמה</title>
+  <meta name="description" content="לקנות או לשכור ולהשקיע? מחשבון השוואה, ועוד דרכים לגרום לשכירות לעבוד בשבילכם.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-section="alt">
+  <header id="site-header"></header>
+
+  <main class="wrap">
+    <div class="page-intro">
+      <div class="crumb"><a href="index.html">בית</a> / <a href="alt.html">דרכים אחרות</a> / לשכור בחוכמה</div>
+      <h1>🧠 לשכור בחוכמה</h1>
+      <p class="lead">״שכירות זה כסף לפח״, אומר הדוד. גם ריבית על משכנתא זה כסף שלא חוזר, אבל את זה הוא שוכח להגיד.</p>
+    </div>
+
+    <ol class="points">
+      <li class="card point">
+        <form class="calc" data-calc="rentbuy" aria-labelledby="rb-title">
+          <div class="calc-head"><span class="emoji" aria-hidden="true">⚖️</span>
+            <h2 id="rb-title">לקנות, או לשכור ולהשקיע את ההפרש?</h2></div>
+          <div class="fields">
+            <div class="field">
+              <label for="rb-price">מחיר הדירה (₪)</label>
+              <input id="rb-price" name="price" type="number" inputmode="numeric" min="0" step="10000" value="1800000">
+            </div>
+            <div class="field">
+              <label for="rb-equity">הון עצמי שיש לכם (₪)</label>
+              <input id="rb-equity" name="equity" type="number" inputmode="numeric" min="0" step="10000" value="500000">
+            </div>
+            <div class="field">
+              <label for="rb-rent">שכר דירה לדירה דומה (₪ בחודש)</label>
+              <input id="rb-rent" name="rent" type="number" inputmode="numeric" min="0" step="100" value="5500">
+            </div>
+            <div class="field">
+              <label for="rb-horizon">לכמה שנים קדימה להסתכל</label>
+              <input id="rb-horizon" name="horizon" type="number" inputmode="numeric" min="1" max="40" step="1" value="20">
+            </div>
+          </div>
+          <details class="adv">
+            <summary>הנחות מתקדמות (לחנונים 🤓)</summary>
+            <div class="fields">
+              <div class="field">
+                <label for="rb-rate">ריבית משכנתא (%)</label>
+                <input id="rb-rate" name="rate" type="number" inputmode="decimal" min="0" max="15" step="0.1" value="4.5">
+              </div>
+              <div class="field">
+                <label for="rb-appr">עליית מחירי דירות ושכירות בשנה (%)</label>
+                <input id="rb-appr" name="appr" type="number" inputmode="decimal" min="-5" max="15" step="0.5" value="3">
+              </div>
+              <div class="field">
+                <label for="rb-inv">תשואה שנתית על השקעה (%)</label>
+                <input id="rb-inv" name="inv" type="number" inputmode="decimal" min="0" max="15" step="0.5" value="5">
+              </div>
+            </div>
+          </details>
+          <div class="result" aria-live="polite">
+            <span class="label">כמה שווה הרכוש שלכם בסוף התקופה</span>
+            <div class="duo" data-out="duo" style="margin-top:8px"></div>
+            <p class="quip" data-out="quip"></p>
+            <div class="row"><span data-out="mpay"></span></div>
+          </div>
+          <p class="assumptions">המודל: משכנתא ל־25 שנה, 3% עלויות קנייה, 0.5% מערך הדירה בשנה לתחזוקה. מי שההוצאה החודשית שלו נמוכה יותר משקיע את ההפרש. בלי מסים ועמלות. זה כלי לחשוב איתו, לא נבואה.</p>
+        </form>
+      </li>
+
+      <li class="card point">
+        <h2>🗺️ לגור פה, לקנות שם</h2>
+        <ul>
+          <li><b>Rentvesting:</b> שוכרים בעיר שאוהבים, וקונים דירה להשקעה בעיר שאפשר להרשות. בעל בית וגם שוכר, באותו זמן.</li>
+          <li><b>״דירה להשכיר״:</b> פרויקטים של המדינה לשכירות ארוכת טווח, עם חוזים לשנים ומחיר מפוקח, לפעמים מתחת למחיר השוק.</li>
+          <li><b>FIRE:</b> לחיות צנוע, להשקיע הרבה, ולהגיע לחופש כלכלי בגיל 45 במקום 67. הבית יכול לחכות, החופש לא.</li>
+        </ul>
+        <p class="reality"><b>בדיקת מציאות:</b> דירה להשקעה נחשבת ״דירה נוספת״: צריך 50% הון עצמי ומשלמים מס רכישה מהשקל הראשון. <a href="buy.html#tax-title">למחשבון מס רכישה</a></p>
+      </li>
+
+      <li class="card point">
+        <h2>🛋️ השכירות שמשלמת לכם</h2>
+        <ul>
+          <li><b>לגור עם ההורים, בכוונה:</b> שנתיים בבית = עשרות אלפי שקלים להון עצמי. זו לא בושה, זו אסטרטגיה. (רק תעשו כלים.)</li>
+          <li><b>שותפים בדירה גדולה:</b> חלוקה ל־3 של שכירות על 5 חדרים יוצאת הרבה פחות מדירה לבד.</li>
+          <li><b>דירה עם יחידת דיור:</b> קונים, משכירים את היחידה, והשוכר משלם חלק מהמשכנתא שלכם.</li>
+        </ul>
+        <p class="reality"><b>חוק שכירות הוגנת:</b> המשכיר חייב לתקן ליקויים, ויש תקרה לביטחונות שאפשר לדרוש מכם. כדאי להכיר לפני שחותמים.</p>
+      </li>
+    </ol>
+
+    <section class="side-door">
+      <p>ואם כבר חוסכים, למה לא לקחת גם מה שהמדינה נותנת? 🎁</p>
+      <a class="btn" href="alt-grants.html">מה מגיע לי ←</a>
+    </section>
+  </main>
+
+  <footer id="site-footer"></footer>
+  <script src="assets/app.js"></script>
+</body>
+</html>

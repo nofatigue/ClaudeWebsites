@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>טריקים במשפט</title>
+  <meta name="description" content="משפט אחד, רעיון אחד: טריקים קצרים שיחסכו לכם כסף בדרך לדירה.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-section="tricks">
+  <header id="site-header"></header>
+
+  <main class="wrap">
+    <div class="page-intro">
+      <div class="crumb"><a href="index.html">בית</a> / טריקים במשפט</div>
+      <h1>⚡ טריקים במשפט</h1>
+      <p class="lead">משפט אחד. רעיון אחד. אפס חפירות. לחצו, תלמדו משהו, תשלחו לחבר.</p>
+    </div>
+
+    <section id="tricks-app">
+      <div class="chips" role="group" aria-label="סינון לפי נושא"></div>
+
+      <article class="trick-card" aria-live="polite">
+        <span class="cat"></span>
+        <p class="text"></p>
+        <span class="meta"></span>
+      </article>
+
+      <div class="trick-actions">
+        <button type="button" class="btn" data-act="next">עוד טריק ⚡</button>
+        <button type="button" class="btn alt" data-act="share">שתפו 📤</button>
+        <button type="button" class="btn alt" data-act="all">הציגו את כולם 📜</button>
+      </div>
+
+      <ul class="trick-list" hidden></ul>
+    </section>
+
+    <section class="side-door">
+      <p>רוצים את התמונה המלאה, צעד אחרי צעד? 🧱</p>
+      <a class="btn sun" href="basics.html">לעקרונות יסוד</a>
+    </section>
+  </main>
+
+  <div class="toast" role="status"></div>
+  <footer id="site-footer"></footer>
+  <script src="assets/app.js"></script>
+  <script src="assets/tricks.js"></script>
+</body>
+</html>

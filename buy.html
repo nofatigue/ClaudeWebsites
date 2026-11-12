@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>לקנות דירה</title>
+  <meta name="description" content="יד שנייה או חדשה, שלוש בדיקות שאסור לדלג עליהן, ומחשבון מס רכישה.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-section="basics">
+  <header id="site-header"></header>
+
+  <main class="wrap">
+    <div class="page-intro">
+      <div class="crumb"><a href="index.html">בית</a> / <a href="basics.html">עקרונות יסוד</a> / לקנות</div>
+      <h1>🔑 לקנות: כאן נגמר הכיף ומתחילה הבירוקרטיה</h1>
+      <p class="lead">החלק שבו מסתכלים על דירות, מתאהבים, ואז נזכרים שצריך לבדוק. בסדר הזה בדיוק, רק הפוך.</p>
+    </div>
+
+    <ol class="points">
+      <li class="card point">
+        <h2>יד שנייה או חדשה מקבלן?</h2>
+        <div class="compare">
+          <div>
+            <h3>🏚️ יד שנייה</h3>
+            <ul>
+              <li>רואים בדיוק מה קונים</li>
+              <li>נכנסים מהר</li>
+              <li>אולי צריך שיפוץ (תמיד צריך שיפוץ)</li>
+            </ul>
+          </div>
+          <div>
+            <h3>🏗️ חדשה מקבלן</h3>
+            <ul>
+              <li>הכל חדש ונוצץ</li>
+              <li>משלמים בשלבים</li>
+              <li>מחכים שנתיים־שלוש, והמחיר צמוד למדד תשומות הבנייה</li>
+            </ul>
+          </div>
+        </div>
+        <p class="reality"><b>מקבלן:</b> אל תעבירו אף שקל בלי <b>ערבות חוק מכר</b> על אותו תשלום. זה מה ששומר עליכם אם הקבלן קורס.</p>
+      </li>
+
+      <li class="card point">
+        <h2>שלוש בדיקות שאסור לדלג עליהן</h2>
+        <ul>
+          <li><b>נסח טאבו:</b> מי הבעלים, האם יש משכנתא או עיקול על הדירה. עולה כמה שקלים, חוסך מאות אלפים.</li>
+          <li><b>תיק בניין בעירייה:</b> המרפסת הסגורה חוקית? אם לא, מרגע הקנייה זו הבעיה שלכם.</li>
+          <li><b>בדק בית + שמאי:</b> רטיבות, סדקים, מחיר אמיתי. ממצאים בבדק בית = כלי מעולה להוריד מחיר.</li>
+        </ul>
+        <p>ובונוס: <b>עורך דין משלכם</b>, לא של המוכר ולא של הקבלן. הוא ירשום <b>הערת אזהרה</b> מיד אחרי החתימה, כדי שאף אחד לא ימכור את הדירה פעמיים.</p>
+      </li>
+
+      <li class="card point">
+        <form class="calc" data-calc="tax" aria-labelledby="tax-title">
+          <div class="calc-head"><span class="emoji" aria-hidden="true">🧾</span>
+            <h2 id="tax-title">כמה מס רכישה אשלם?</h2></div>
+          <div class="fields">
+            <div class="field">
+              <label for="t-price">מחיר הדירה (₪)</label>
+              <input id="t-price" name="price" type="number" inputmode="numeric" min="0" step="10000" value="2200000">
+            </div>
+            <div class="field">
+              <label for="t-kind">סוג הרכישה</label>
+              <select id="t-kind" name="kind">
+                <option value="sole" selected>דירה יחידה (אין לי דירה אחרת)</option>
+                <option value="extra">דירה נוספת</option>
+              </select>
+            </div>
+          </div>
+          <div class="result" aria-live="polite">
+            <span class="label">מס רכישה משוער</span>
+            <span class="big" data-out="big"></span>
+            <div class="row" data-out="row"></div>
+            <p class="quip" data-out="quip"></p>
+          </div>
+          <p class="assumptions">לפי מדרגות המס שפורסמו ל־2025 והוקפאו לשנים הבאות <span class="verify">לבדוק עדכון</span>. לעולים חדשים, לנכים ולמקרים מיוחדים יש מדרגות אחרות. החישוב המדויק: בסימולטור של רשות המסים.</p>
+        </form>
+      </li>
+    </ol>
+
+    <section class="side-door">
+      <p>נשמע כמו הרבה? יש עוד דרכים לחיות טוב 🛥️</p>
+      <a class="btn sun" href="alt.html">לדרכים אחרות</a>
+    </section>
+  </main>
+
+  <footer id="site-footer"></footer>
+  <script src="assets/app.js"></script>
+</body>
+</html>
