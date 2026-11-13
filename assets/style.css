@@ -296,9 +296,8 @@ details.adv .fields { margin-top: 12px; }
 @media (max-width: 640px) {
   .site-header .wrap { flex-direction: column; flex-wrap: nowrap; align-items: stretch; gap: 6px; }
   .head-row { justify-content: space-between; }
-  .nav { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin: 0 -16px; padding: 0 16px 2px; }
-  .nav::-webkit-scrollbar { display: none; }
-  .nav a { white-space: nowrap; }
+  .nav { flex-wrap: wrap; gap: 4px; }
+  .nav a { white-space: nowrap; padding: 3px 9px; font-size: .9rem; }
 }
 
 /* Toast */

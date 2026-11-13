@@ -145,7 +145,7 @@ function renderHome() {
         <div class="keyday">🔑 ${key}</div>
         <p class="muted">${sub}</p>
       </div>
-      <button type="button" class="btn alt" data-act="onboard">✏️ לעדכן</button>
+      <div class="cta-row" style="margin-top:0"><a class="btn sun" href="game.html">🎮 למשחק</a><button type="button" class="btn alt" data-act="onboard">✏️ לעדכן</button></div>
     </div>
     ${track}
     ${list}
