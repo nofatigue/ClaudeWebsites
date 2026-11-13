@@ -84,13 +84,6 @@ function startOnboarding() {
 function refreshCalcs() {
   document.querySelectorAll('form[data-calc]').forEach((form) => {
     prefill(form);
-    form.querySelectorAll('input[data-range]').forEach((inp) => {
-      const step = Number(inp.dataset.range.split(',')[2]);
-      const v = parseFloat(String(inp.value).replace(/[^\d.\-]/g, '')) || 0;
-      const range = inp.parentNode.querySelector('input[type="range"]');
-      if (range) range.value = v;
-      inp.value = fmtField(v, step);
-    });
     if (form._run) form._run();
   });
 }
