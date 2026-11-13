@@ -47,9 +47,30 @@
         <ul>
           <li><b>הוראת קבע ביום שהמשכורת נכנסת.</b> מה שלא רואים, לא מבזבזים.</li>
           <li><b>חצי מכל העלאה בשכר הולך לחיסכון.</b> אתם לא תרגישו, החשבון כן.</li>
-          <li><b>לא משאירים כסף בעו״ש.</b> שם הוא רק נאכל על ידי האינפלציה. קרן כספית לטווח קצר, השקעה מפוזרת לטווח ארוך.</li>
+          <li><b>לא משאירים כסף בעו״ש.</b> שם הוא רק נאכל על ידי האינפלציה.</li>
         </ul>
-        <a class="more" href="index.html#savings-title">למחשבון: כמה זמן ייקח לי? ←</a>
+        <form class="calc" data-calc="habits" aria-labelledby="habits-title">
+          <div class="calc-head"><span class="emoji" aria-hidden="true">☕</span>
+            <h3 id="habits-title">כמה עולים לכם ההרגלים? סמנו מה מתאים (בלי שיפוטיות)</h3></div>
+          <div class="habits">
+            <label class="habit"><input type="checkbox" name="h" value="400"><span>☕ קפה בחוץ כל יום <small>~400 ₪</small></span></label>
+            <label class="habit"><input type="checkbox" name="h" value="1000"><span>🛵 וולט 3 פעמים בשבוע <small>~1,000 ₪</small></span></label>
+            <label class="habit"><input type="checkbox" name="h" value="180"><span>📺 4 מנויי סטרימינג <small>~180 ₪</small></span></label>
+            <label class="habit"><input type="checkbox" name="h" value="1100"><span>🚬 קופסה ביום <small>~1,100 ₪</small></span></label>
+            <label class="habit"><input type="checkbox" name="h" value="350"><span>👕 קניות אונליין "כי היה מבצע" <small>~350 ₪</small></span></label>
+            <label class="habit"><input type="checkbox" name="h" value="300"><span>🍺 בר פעם בשבוע <small>~300 ₪</small></span></label>
+            <label class="habit"><input type="checkbox" name="h" value="2000"><span>🚗 ליסינג במקום רכב יד שנייה <small>~2,000 ₪</small></span></label>
+            <label class="habit"><input type="checkbox" name="h" value="250"><span>🏋️ מנוי לחדר כושר שלא הולכים אליו <small>~250 ₪</small></span></label>
+            <label class="habit"><input type="checkbox" name="h" value="150"><span>📱 חבילת סלולר יקרה <small>~150 ₪</small></span></label>
+          </div>
+          <div class="result" aria-live="polite">
+            <span class="label">ההרגלים האלה עולים לכם</span>
+            <span class="big" data-out="big"></span>
+            <div class="row" data-out="row"></div>
+            <p class="quip" data-out="quip"></p>
+          </div>
+          <p class="assumptions">הסכומים הם הערכות חודשיות גסות. "מושקע 10 שנים" מניח תשואה של 5% בשנה.</p>
+        </form>
       </li>
     </ol>
 

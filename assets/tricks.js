@@ -87,6 +87,11 @@ const TRICKS = [
   function show(i) {
     current = i;
     seen.add(i); save();
+    if (typeof XP !== 'undefined') {
+      if (seen.size >= 10) XP.award('tricks10');
+      if (seen.size >= 25) XP.award('tricks25');
+      if (seen.size >= TRICKS.length) XP.award('tricksAll');
+    }
     const t = TRICKS[i];
     catEl.textContent = t.c;
     textEl.textContent = t.t;
@@ -117,9 +122,9 @@ const TRICKS = [
   root.querySelector('[data-act="share"]').addEventListener('click', async () => {
     const text = `${TRICKS[current].t} ⚡`;
     try {
-      if (navigator.share) { await navigator.share({ text, url: location.href }); return; }
-      await navigator.clipboard.writeText(`${text}\n${location.href}`);
-      flash('הועתק! עכשיו תשלחו לחבר שצריך את זה 📋');
+      if (navigator.share) await navigator.share({ text, url: location.href });
+      else { await navigator.clipboard.writeText(`${text}\n${location.href}`); flash('הועתק! עכשיו תשלחו לחבר שצריך את זה 📋'); }
+      if (typeof XP !== 'undefined') XP.award('share');
     } catch (e) { /* המשתמש ביטל */ }
   });
 

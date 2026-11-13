@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>בית בלי חפירות</title>
-  <meta name="description" content="המדריך הפשוט והמצחיק לצעירים שרוצים לחסוך, לתכנן ולקנות דירה בישראל, או לגור ביאכטה. עם מחשבונים פשוטים.">
+  <meta name="description" content="המדריך הפשוט והמצחיק לצעירים שרוצים לחסוך, לתכנן ולקנות דירה בישראל, או לגור ביאכטה. עם מפה אישית, מחשבונים ומשחק.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,11 +15,23 @@
   <header id="site-header"></header>
 
   <main class="wrap">
-    <section class="hero">
+    <!-- מוצג למי שעוד לא בנה מפה -->
+    <section class="hero" id="hero-new">
       <span class="kicker">דירה בישראל? כן, באמת 🤯</span>
       <h1>להגיע לבית <span class="highlight">בלי לאבד את השפיות.</span></h1>
       <p class="lead">המדריך לצעירים שרוצים לחסוך, לתכנן, ובסוף גם לקבל מפתח.
         או לגור ביאכטה. גם זה בסדר, אנחנו לא שופטים.</p>
+      <div class="cta-row">
+        <button type="button" class="btn" data-act="onboard">🗺️ בנו לי מפה אישית (30 שניות)</button>
+        <a class="btn alt" href="game.html">🎮 או קודם לשחק</a>
+      </div>
+    </section>
+
+    <!-- מוצג למי שכבר בנה מפה -->
+    <section class="hero" id="hero-map" hidden>
+      <span class="kicker">היי, חזרתם! 👋</span>
+      <h1>המפה <span class="highlight">שלכם.</span></h1>
+      <div class="card map-card" id="map"></div>
     </section>
 
     <section>
@@ -29,35 +41,50 @@
         <div class="fields">
           <div class="field">
             <label for="s-price">מחיר הדירה שאתם חולמים עליה (₪)</label>
-            <input id="s-price" name="price" type="number" inputmode="numeric" min="0" step="10000" value="1800000">
+            <input id="s-price" name="price" data-p="price" data-range="200000,5000000,10000" value="1800000">
           </div>
           <div class="field">
             <label for="s-pct">מי אתם? <span class="hint">(קובע כמה הון עצמי צריך)</span></label>
-            <select id="s-pct" name="pct">
+            <select id="s-pct" name="pct" data-p="pct">
               <option value="25" selected>דירה ראשונה: 25%</option>
               <option value="30">משפרי דיור: 30%</option>
               <option value="50">משקיעים / דירה נוספת: 50%</option>
+              <option value="100">יאכטה / קנייה במזומן: 100%</option>
             </select>
           </div>
           <div class="field">
             <label for="s-saved">כמה כבר חסכתם (₪)</label>
-            <input id="s-saved" name="saved" type="number" inputmode="numeric" min="0" step="1000" value="50000">
+            <input id="s-saved" name="saved" data-p="saved" data-range="0,1500000,5000" value="50000">
           </div>
           <div class="field">
             <label for="s-monthly">כמה אתם חוסכים בחודש (₪)</label>
-            <input id="s-monthly" name="monthly" type="number" inputmode="numeric" min="0" step="100" value="3000">
+            <input id="s-monthly" name="monthly" data-p="monthly" data-range="0,20000,100" value="3000">
           </div>
           <div class="field">
             <label for="s-ret">תשואה שנתית על החיסכון (%) <span class="hint">(עו״ש = 0, השקעה סולידית ≈ 3–5)</span></label>
-            <input id="s-ret" name="ret" type="number" inputmode="decimal" min="0" max="15" step="0.5" value="4">
+            <input id="s-ret" name="ret" data-range="0,10,0.5" value="4">
           </div>
         </div>
         <div class="result" aria-live="polite">
-          <span class="label">תגיעו ליעד בעוד</span>
-          <span class="big" data-out="big"></span>
-          <p class="quip" data-out="quip"></p>
+          <div class="result-grid">
+            <div>
+              <span class="label">תגיעו ליעד בעוד</span>
+              <span class="big" data-out="big"></span>
+              <p class="quip" data-out="quip"></p>
+            </div>
+            <div class="house" aria-hidden="true">
+              <svg viewBox="0 0 100 104">
+                <defs><clipPath id="houseClip"><path d="M50 6 L94 44 L84 44 L84 100 L16 100 L16 44 L6 44 Z"/></clipPath></defs>
+                <path d="M50 6 L94 44 L84 44 L84 100 L16 100 L16 44 L6 44 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+                <rect class="house-fill-rect" clip-path="url(#houseClip)" x="0" y="100" width="100" height="0" fill="var(--sun)"/>
+                <path d="M50 6 L94 44 L84 44 L84 100 L16 100 L16 44 L6 44 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+              </svg>
+              <b data-out="done">0%</b>כבר בכיס
+            </div>
+          </div>
           <div class="row"><span data-out="target"></span></div>
           <div class="row"><span data-out="boost"></span></div>
+          <div class="chart" data-chart></div>
         </div>
         <p class="assumptions">הנחות: עלויות נלוות (עו״ד, שמאי, תיווך וכו׳) כ־3% מהמחיר. המחיר לא עולה בזמן שאתם חוסכים (אופטימי, אנחנו יודעים).</p>
       </form>
@@ -86,9 +113,18 @@
         </a>
       </div>
     </section>
+
+    <section class="game-banner">
+      <div>
+        <h2>🎮 משחק החיים: מגיל 23 עד 35</h2>
+        <p>שכירות או ההורים? תאילנד או קרן מחקה מדד? יאכטה? 12 שנים, 12 החלטות, וחתול אחד שישבור לכם טלוויזיה.</p>
+      </div>
+      <a class="btn sun" href="game.html">לשחק ←</a>
+    </section>
   </main>
 
   <footer id="site-footer"></footer>
   <script src="assets/app.js"></script>
+  <script src="assets/home.js"></script>
 </body>
 </html>

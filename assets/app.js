@@ -6,51 +6,34 @@ const NAV = [
   ['index.html', 'בית', 'home'],
   ['basics.html', 'עקרונות יסוד', 'basics'],
   ['alt.html', 'דרכים אחרות', 'alt'],
-  ['tricks.html', 'טריקים במשפט', 'tricks'],
+  ['tricks.html', 'טריקים', 'tricks'],
+  ['game.html', '🎮 משחק', 'game'],
 ];
 
-/* ===== Header & Footer ===== */
-(function layout() {
-  const section = document.body.dataset.section || '';
-  const header = document.getElementById('site-header');
-  if (header) {
-    header.className = 'site-header';
-    header.innerHTML = `
-      <div class="wrap">
-        <a class="logo" href="index.html">🏠 <span>${SITE_NAME}</span> <span class="tag">בטא</span></a>
-        <nav class="nav" aria-label="ניווט ראשי">
-          ${NAV.map(([href, label, key]) =>
-            `<a href="${href}"${key === section ? ' aria-current="page"' : ''}>${label}</a>`).join('')}
-        </nav>
-      </div>`;
-  }
-  const footer = document.getElementById('site-footer');
-  if (footer) {
-    footer.className = 'site-footer';
-    footer.innerHTML = `
-      <div class="wrap">
-        <p><strong>חשוב:</strong> המידע כאן כללי ונועד לעשות סדר בראש. הוא לא ייעוץ משפטי, פיננסי או מיסויי.
-        מספרים, מדרגות מס ומענקים משתנים, אז לפני החלטה גדולה בודקים במקור (רשות המסים, בנק ישראל, משרד הבינוי והשיכון)
-        ומתייעצים עם בעלי מקצוע.</p>
-        <p>עודכן לאחרונה: ${UPDATED} · ${SITE_NAME} · נבנה באהבה ובקצת חרדה מהמשכנתא 🫠</p>
-      </div>`;
-  }
-})();
+/* ===== אחסון מקומי (עובד גם כשהדפדפן חוסם) ===== */
+const store = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* בלי זיכרון */ } },
+};
 
 /* ===== עזרים ===== */
 const fmt = (n) => Math.round(n).toLocaleString('he-IL');
 const ils = (n) => `${fmt(n)} ₪`;
+const compact = (n) => {
+  const a = Math.abs(n), s = n < 0 ? '-' : '';
+  if (a >= 1e6) return `${s}${(a / 1e6).toFixed(a >= 1e7 ? 0 : 1)}M`;
+  if (a >= 1e3) return `${s}${Math.round(a / 1e3)}K`;
+  return `${s}${Math.round(a)}`;
+};
 const num = (form, name) => {
   const el = form.elements[name];
   if (!el) return 0;
-  const v = parseFloat(String(el.value).replace(/,/g, ''));
+  const v = parseFloat(String(el.value).replace(/[^\d.\-]/g, ''));
   return Number.isFinite(v) ? v : 0;
 };
 const out = (form, key, html) => {
-  const el = form.querySelector(`[data-out="${key}"]`);
-  if (el) el.innerHTML = html;
+  form.querySelectorAll(`[data-out="${key}"]`).forEach((el) => { el.innerHTML = html; });
 };
-// תשלום חודשי (שפיצר)
 function pmt(principal, annualRatePct, years) {
   const n = Math.round(years * 12);
   if (n <= 0 || principal <= 0) return 0;
@@ -58,7 +41,6 @@ function pmt(principal, annualRatePct, years) {
   if (r === 0) return principal / n;
   return (principal * r) / (1 - Math.pow(1 + r, -n));
 }
-// כמה הלוואה אפשר לקחת בהחזר נתון
 function pv(payment, annualRatePct, years) {
   const n = Math.round(years * 12);
   if (n <= 0 || payment <= 0) return 0;
@@ -73,6 +55,265 @@ function yearsMonths(m) {
   if (!ys && !ms) return 'עכשיו';
   if (!ys || !ms) return ys || ms;
   return `${ys} ${/^\d/.test(ms) ? 'ו־' : 'ו'}${ms}`;
+}
+const HE_MONTHS = ['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני', 'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצמבר'];
+function dateIn(months) {
+  const d = new Date();
+  d.setMonth(d.getMonth() + months);
+  return `${HE_MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+}
+// סימולציית חיסכון: מחזיר מספר חודשים עד היעד ואת היתרה בכל חודש
+function simulateSavings({ target, saved, monthly, ret, maxMonths = 600 }) {
+  const rm = Math.pow(1 + ret, 1 / 12) - 1;
+  let bal = saved, m = 0;
+  const path = [bal];
+  while (bal < target && m < maxMonths) { bal = bal * (1 + rm) + monthly; m++; path.push(bal); }
+  return { months: bal >= target ? m : Infinity, path };
+}
+
+/* ===== פרופיל אישי ===== */
+const Profile = {
+  get() { return store.get('profile-v1', null); },
+  set(p) { store.set('profile-v1', p); },
+};
+
+/* ===== רמות ותגים ===== */
+const LEVELS = [
+  [0, 'שוכר מתחיל', '🐣'],
+  [100, 'חוסך מתחיל', '🐷'],
+  [250, 'צייד ריביות', '🏹'],
+  [450, 'בלש טאבו', '🕵️'],
+  [700, 'מומחה נדל״ן', '🧠'],
+  [1000, 'בעל מפתח', '🔑'],
+];
+const BADGES = {
+  onboard: { e: '🚀', name: 'יצאתם לדרך', hint: 'בנו מפה אישית בעמוד הבית', xp: 50 },
+  visit_basics: { e: '🧱', name: 'יסודות', hint: 'בקרו בעקרונות יסוד', xp: 15 },
+  visit_alt: { e: '🛥️', name: 'חושבים אחרת', hint: 'בקרו בדרכים אחרות לחיות', xp: 15 },
+  visit_tricks: { e: '⚡', name: 'סקרנים', hint: 'בקרו בטריקים', xp: 15 },
+  calc_savings: { e: '⏳', name: 'מחשבי זמן', hint: 'שחקו עם מחשבון החיסכון', xp: 30 },
+  calc_habits: { e: '☕', name: 'גלאי קפה', hint: 'בדקו כמה עולים לכם ההרגלים', xp: 30 },
+  calc_afford: { e: '🧮', name: 'יודעים את הגבול', hint: 'בדקו כמה דירה אתם יכולים להרשות', xp: 30 },
+  calc_mortgage: { e: '📆', name: 'מבינים משכנתא', hint: 'חשבו החזר חודשי', xp: 30 },
+  stress: { e: '😱', name: 'שרדתם מבחן לחץ', hint: 'העלו את הריבית במבחן הלחץ', xp: 40 },
+  calc_tax: { e: '🧾', name: 'חברים של רשות המסים', hint: 'חשבו מס רכישה', xp: 30 },
+  calc_rentbuy: { e: '⚖️', name: 'שופטים הוגנים', hint: 'השוו קנייה מול שכירות', xp: 30 },
+  tricks10: { e: '🤓', name: '10 טריקים', hint: 'גלו 10 טריקים', xp: 40 },
+  tricks25: { e: '🧙', name: '25 טריקים', hint: 'גלו 25 טריקים', xp: 60 },
+  tricksAll: { e: '👑', name: 'כל הטריקים', hint: 'גלו את כל הטריקים', xp: 150 },
+  share: { e: '📤', name: 'חברים טובים', hint: 'שתפו משהו עם חבר', xp: 30 },
+  game_start: { e: '🎮', name: 'שחקנים', hint: 'התחילו את משחק החיים', xp: 30 },
+  game_finish: { e: '🏁', name: 'שרדתם עד 35', hint: 'סיימו משחק', xp: 150 },
+  game_owner: { e: '🔑', name: 'בעלי בית (במשחק)', hint: 'קנו דירה במשחק', xp: 60 },
+  game_yacht: { e: '⛵', name: 'זאבי ים', hint: 'גורו על יאכטה במשחק', xp: 60 },
+  game_kibbutz: { e: '🌾', name: 'קיבוצניקים', hint: 'עברו לקיבוץ במשחק', xp: 60 },
+  game_rich: { e: '💰', name: 'מיליונרים', hint: 'סיימו משחק עם שווי של מיליון ₪', xp: 80 },
+  game_veteran: { e: '🎖️', name: 'ותיקי המשחק', hint: 'שחקו 3 משחקים', xp: 80 },
+};
+const XP = {
+  _list: store.get('badges-v1', []),
+  earned() { return this._list; },
+  has(id) { return this._list.includes(id); },
+  total() { return this._list.reduce((s, id) => s + (BADGES[id] ? BADGES[id].xp : 0), 0); },
+  levelIndex(xp) { let i = 0; LEVELS.forEach((l, j) => { if (xp >= l[0]) i = j; }); return i; },
+  award(id) {
+    const b = BADGES[id];
+    if (!b || this.has(id)) return;
+    const before = this.levelIndex(this.total());
+    this._list.push(id);
+    store.set('badges-v1', this._list);
+    const after = this.levelIndex(this.total());
+    renderPill();
+    toast(`${b.e} תג חדש: ${b.name} · +${b.xp} XP`);
+    confetti(after > before ? 180 : 50);
+    if (after > before) toast(`🎉 עליתם רמה! עכשיו אתם ${LEVELS[after][1]} ${LEVELS[after][2]}`);
+  },
+};
+
+/* ===== Toast (תור הודעות) ===== */
+const toastQueue = [];
+let toastBusy = false;
+function toast(msg) {
+  toastQueue.push(msg);
+  if (!toastBusy) nextToast();
+}
+function nextToast() {
+  const msg = toastQueue.shift();
+  if (!msg) { toastBusy = false; return; }
+  toastBusy = true;
+  let el = document.querySelector('.toast');
+  if (!el) { el = document.createElement('div'); el.className = 'toast'; el.setAttribute('role', 'status'); document.body.appendChild(el); }
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => { el.classList.remove('show'); setTimeout(nextToast, 250); }, 2300);
+}
+
+/* ===== קונפטי ===== */
+function confetti(n = 80) {
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const c = document.createElement('canvas');
+  c.className = 'confetti';
+  const dpr = window.devicePixelRatio || 1;
+  c.width = innerWidth * dpr; c.height = innerHeight * dpr;
+  document.body.appendChild(c);
+  const ctx = c.getContext('2d');
+  ctx.scale(dpr, dpr);
+  const colors = ['#6B3BFF', '#FF5A5F', '#FFD23F', '#3DDC97', '#7CC8FF', '#FFB3D1'];
+  const parts = Array.from({ length: n }, () => ({
+    x: innerWidth / 2 + (Math.random() - 0.5) * 200, y: innerHeight * 0.35,
+    vx: (Math.random() - 0.5) * 12, vy: -Math.random() * 12 - 4,
+    w: 6 + Math.random() * 6, h: 8 + Math.random() * 8,
+    r: Math.random() * Math.PI, vr: (Math.random() - 0.5) * 0.4,
+    c: colors[Math.floor(Math.random() * colors.length)],
+  }));
+  const start = performance.now();
+  (function frame(t) {
+    ctx.clearRect(0, 0, innerWidth, innerHeight);
+    parts.forEach((p) => {
+      p.vy += 0.35; p.x += p.vx; p.y += p.vy; p.r += p.vr;
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r);
+      ctx.fillStyle = p.c; ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h); ctx.restore();
+    });
+    if (t - start < 2200) requestAnimationFrame(frame); else c.remove();
+  })(start);
+}
+
+/* ===== חלון (מודאל) ===== */
+function openModal(html, { onClose, wide } = {}) {
+  const d = document.createElement('dialog');
+  d.className = `modal${wide ? ' wide' : ''}`;
+  d.innerHTML = `<button class="modal-x" type="button" aria-label="סגירה">✕</button><div class="modal-body">${html}</div>`;
+  document.body.appendChild(d);
+  const close = () => { d.close(); };
+  d.querySelector('.modal-x').addEventListener('click', close);
+  d.addEventListener('click', (e) => { if (e.target === d) close(); });
+  d.addEventListener('close', () => { d.remove(); if (onClose) onClose(); });
+  d.showModal();
+  return d;
+}
+
+/* ===== כותרת, תחתית ופס רמה ===== */
+function renderPill() {
+  const pill = document.querySelector('.xp-pill');
+  if (!pill) return;
+  const xp = XP.total();
+  const i = XP.levelIndex(xp);
+  const cur = LEVELS[i], nxt = LEVELS[i + 1];
+  const pct = nxt ? ((xp - cur[0]) / (nxt[0] - cur[0])) * 100 : 100;
+  pill.innerHTML = `<span aria-hidden="true">${cur[2]}</span><span class="xp-text">${cur[1]}</span>
+    <span class="xp-bar" aria-hidden="true"><i style="width:${pct}%"></i></span>`;
+  pill.setAttribute('aria-label', `רמה: ${cur[1]}, ${xp} נקודות. לחצו לתגים`);
+}
+function openBadges() {
+  const xp = XP.total();
+  const i = XP.levelIndex(xp);
+  const nxt = LEVELS[i + 1];
+  const ladder = LEVELS.map((l, j) => `<li class="${j <= i ? 'done' : ''}${j === i ? ' now' : ''}">
+      <span>${l[2]}</span> ${l[1]} <small>${l[0]} XP</small></li>`).join('');
+  const grid = Object.entries(BADGES).map(([id, b]) => {
+    const got = XP.has(id);
+    return `<li class="badge ${got ? 'got' : ''}" title="${b.hint}">
+      <span class="be">${got ? b.e : '🔒'}</span><b>${b.name}</b><small>${got ? `+${b.xp} XP` : b.hint}</small></li>`;
+  }).join('');
+  openModal(`
+    <h2>${LEVELS[i][2]} ${LEVELS[i][1]}</h2>
+    <p class="muted">${xp} XP${nxt ? ` · עוד ${nxt[0] - xp} עד ${nxt[1]} ${nxt[2]}` : ' · הגעתם לפסגה! 🔑'}</p>
+    <ol class="ladder">${ladder}</ol>
+    <h3>התגים שלכם (${XP.earned().length}/${Object.keys(BADGES).length})</h3>
+    <ul class="badges">${grid}</ul>`, { wide: true });
+}
+
+(function layout() {
+  const section = document.body.dataset.section || '';
+  const header = document.getElementById('site-header');
+  if (header) {
+    header.className = 'site-header';
+    header.innerHTML = `
+      <div class="wrap">
+        <div class="head-row">
+          <a class="logo" href="index.html">🏠 <span>${SITE_NAME}</span></a>
+          <button type="button" class="xp-pill"></button>
+        </div>
+        <nav class="nav" aria-label="ניווט ראשי">
+          ${NAV.map(([href, label, key]) =>
+            `<a href="${href}"${key === section ? ' aria-current="page"' : ''}>${label}</a>`).join('')}
+        </nav>
+      </div>`;
+    header.querySelector('.xp-pill').addEventListener('click', openBadges);
+    renderPill();
+  }
+  const footer = document.getElementById('site-footer');
+  if (footer) {
+    footer.className = 'site-footer';
+    footer.innerHTML = `
+      <div class="wrap">
+        <p><strong>חשוב:</strong> המידע כאן כללי ונועד לעשות סדר בראש. הוא לא ייעוץ משפטי, פיננסי או מיסויי.
+        מספרים, מדרגות מס ומענקים משתנים, אז לפני החלטה גדולה בודקים במקור (רשות המסים, בנק ישראל, משרד הבינוי והשיכון)
+        ומתייעצים עם בעלי מקצוע.</p>
+        <p>הנתונים האישיים שלכם נשמרים רק בדפדפן שלכם, ולא נשלחים לשום מקום.</p>
+        <p>עודכן לאחרונה: ${UPDATED} · ${SITE_NAME} · נבנה באהבה ובקצת חרדה מהמשכנתא 🫠</p>
+      </div>`;
+  }
+  if (['basics', 'alt', 'tricks'].includes(section)) setTimeout(() => XP.award(`visit_${section}`), 600);
+})();
+
+/* ===== סליידרים: <input data-range="min,max,step"> ===== */
+function fmtField(v, step) {
+  return Number(v).toLocaleString('he-IL', { maximumFractionDigits: step < 1 ? 2 : 0 });
+}
+function enhanceSliders(root = document) {
+  root.querySelectorAll('input[data-range]').forEach((input) => {
+    if (input.dataset.enhanced) return;
+    input.dataset.enhanced = '1';
+    const [min, max, step] = input.dataset.range.split(',').map(Number);
+    const range = document.createElement('input');
+    range.type = 'range'; range.min = min; range.max = max; range.step = step;
+    range.setAttribute('aria-hidden', 'true'); range.tabIndex = -1;
+    const start = parseFloat(String(input.value).replace(/[^\d.\-]/g, '')) || 0;
+    range.value = start;
+    input.type = 'text';
+    input.inputMode = step < 1 ? 'decimal' : 'numeric';
+    input.value = fmtField(start, step);
+    const wrap = document.createElement('div');
+    wrap.className = 'slider-pair';
+    input.parentNode.insertBefore(wrap, input);
+    wrap.appendChild(range); wrap.appendChild(input);
+    range.addEventListener('input', () => {
+      input.value = fmtField(range.value, step);
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+    input.addEventListener('input', (e) => {
+      if (e.isTrusted) range.value = parseFloat(input.value.replace(/[^\d.\-]/g, '')) || 0;
+    });
+    input.addEventListener('blur', () => {
+      const v = parseFloat(input.value.replace(/[^\d.\-]/g, '')) || 0;
+      input.value = fmtField(v, step);
+    });
+  });
+}
+
+/* ===== גרף קווי פשוט ב־SVG ===== */
+function lineChart(el, series, { xLabel = (i) => i, points } = {}) {
+  if (!el) return;
+  const W = 400, H = 190, L = 44, R = 10, T = 12, B = 26;
+  const all = series.flatMap((s) => s.data);
+  let max = Math.max(...all, 1), min = Math.min(0, ...all);
+  const n = Math.max(...series.map((s) => s.data.length)) - 1 || 1;
+  const x = (i) => L + (i / n) * (W - L - R);
+  const y = (v) => T + (1 - (v - min) / (max - min)) * (H - T - B);
+  const grid = [0, 0.5, 1].map((f) => {
+    const v = min + (max - min) * f;
+    return `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" class="g"/><text x="${L - 6}" y="${y(v) + 4}" text-anchor="end">${compact(v)}</text>`;
+  }).join('');
+  const lines = series.map((s) => {
+    const d = s.data.map((v, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join('');
+    return `<path d="${d}" fill="none" stroke="${s.color}" stroke-width="3" ${s.dash ? 'stroke-dasharray="6 5"' : ''} stroke-linecap="round"/>`;
+  }).join('');
+  const xs = (points || [0, n]).map((i) => `<text x="${x(i)}" y="${H - 6}" text-anchor="middle">${xLabel(i)}</text>`).join('');
+  const legend = series.filter((s) => s.label).map((s) =>
+    `<span><i style="background:${s.color}"></i>${s.label}</span>`).join('');
+  el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="גרף" direction="ltr">${grid}${lines}${xs}</svg>
+    ${legend ? `<div class="legend">${legend}</div>` : ''}`;
 }
 
 /* ===== מס רכישה (מדרגות 2025, הוקפאו — לבדוק ברשות המסים) ===== */
@@ -89,57 +330,84 @@ function purchaseTax(price, brackets) {
 
 /* ===== מחשבונים ===== */
 const CALCS = {
-  // כמה זמן ייקח לחסוך
   savings(form) {
     const price = num(form, 'price');
     const pct = num(form, 'pct') / 100;
     const saved = num(form, 'saved');
     const monthly = num(form, 'monthly');
     const ret = num(form, 'ret') / 100;
-    const costs = price * 0.03;
+    const costs = pct >= 1 ? 0 : price * 0.03;
     const target = price * pct + costs;
-    const rm = Math.pow(1 + ret, 1 / 12) - 1;
-    const months = (extra) => {
-      let bal = saved, m = 0;
-      while (bal < target && m < 1200) { bal = bal * (1 + rm) + monthly + extra; m++; }
-      return m;
-    };
-    const m = months(0);
-    out(form, 'target', `יעד: ${ils(price * pct)} הון עצמי + כ־${ils(costs)} עלויות נלוות = <b>${ils(target)}</b>`);
+    const sim = simulateSavings({ target, saved, monthly, ret });
+    const m = sim.months;
+    out(form, 'target', `יעד: ${ils(price * pct)} הון עצמי${costs ? ` + כ־${ils(costs)} עלויות נלוות` : ''} = <b>${ils(target)}</b>`);
     let big, quip, boost = '';
     if (target <= 0) {
       big = '—'; quip = 'תכניסו מחיר דירה ונתחיל לחלום 🙂';
     } else if (m === 0) {
-      big = 'יש לכם כבר! 🎉';
-      quip = 'מה אתם עושים פה? רוצו לבנק לבקש אישור עקרוני 🏃‍♀️';
-    } else if (m >= 1200) {
-      big = 'בקצב הזה… לעולם לא 💀';
-      quip = 'רק ירושה תציל את המצב. בואו נעלה קצת את החיסכון החודשי, או נציץ בציר 2.';
+      big = 'יש לכם כבר! 🎉'; quip = 'מה אתם עושים פה? רוצו לבנק לבקש אישור עקרוני 🏃‍♀️';
+    } else if (!Number.isFinite(m)) {
+      big = 'בקצב הזה… לעולם לא 💀'; quip = 'רק ירושה תציל את המצב. נסו להעלות את החיסכון החודשי, או הציצו ב"דרכים אחרות".';
     } else {
       big = yearsMonths(m);
       const y = m / 12;
       quip = y < 2 ? 'כמעט שם! מותר להתחיל לגלול מודעות דירות (בזהירות).'
         : y < 5 ? 'ריאלי לגמרי. הוראת קבע, נשימה עמוקה, וקדימה.'
-        : y < 10 ? 'מרתון, לא ספרינט. הטריקים במשפט יכולים לקצר את הדרך 👀'
+        : y < 10 ? 'מרתון, לא ספרינט. הטריקים יכולים לקצר את הדרך 👀'
         : 'אוקיי, זה ארוך. זה בדיוק הזמן להכיר את "דרכים אחרות לחיות" 🛥️';
-      const m2 = months(500);
+      const m2 = simulateSavings({ target, saved, monthly: monthly + 500, ret }).months;
       if (m2 < m) boost = `חוסכים עוד 500 ₪ בחודש? מגיעים <b>${yearsMonths(m - m2)}</b> מוקדם יותר.`;
     }
     out(form, 'big', big);
     out(form, 'quip', quip);
     out(form, 'boost', boost);
+    // בית שמתמלא
+    const pctDone = target > 0 ? Math.min(1, saved / target) : 0;
+    const fill = form.querySelector('.house-fill-rect');
+    if (fill) { fill.setAttribute('y', String(100 - pctDone * 94)); fill.setAttribute('height', String(pctDone * 94)); }
+    out(form, 'done', `${Math.round(pctDone * 100)}%`);
+    // גרף
+    const years = Math.min(30, Math.max(3, Math.ceil((Number.isFinite(m) ? m : 360) / 12)));
+    const yearly = [];
+    const rm = Math.pow(1 + ret, 1 / 12) - 1;
+    let bal = saved;
+    for (let i = 0; i <= years; i++) { yearly.push(bal); for (let k = 0; k < 12; k++) bal = bal * (1 + rm) + monthly; }
+    lineChart(form.querySelector('[data-chart]'), [
+      { data: yearly, color: 'var(--primary)', label: 'החיסכון שלכם' },
+      { data: yearly.map(() => target), color: 'var(--accent)', dash: true, label: 'היעד' },
+    ], { xLabel: (i) => (i === 0 ? 'היום' : `שנה ${i}`), points: [0, Math.round(years / 2), years] });
   },
 
-  // כמה דירה אפשר להרשות לעצמכם
+  habits(form) {
+    const checked = [...form.querySelectorAll('input[name="h"]:checked')];
+    const monthly = checked.reduce((s, el) => s + Number(el.value), 0);
+    const r = 0.05 / 12, n = 120;
+    const fv10 = monthly * ((Math.pow(1 + r, n) - 1) / r);
+    const p = Profile.get() || { price: 1800000, pct: 25, saved: 50000, monthly: 3000 };
+    const target = p.price * (p.pct / 100) + (p.pct >= 100 ? 0 : p.price * 0.03);
+    const base = simulateSavings({ target, saved: p.saved, monthly: p.monthly, ret: 0.04 }).months;
+    const faster = simulateSavings({ target, saved: p.saved, monthly: p.monthly + monthly, ret: 0.04 }).months;
+    out(form, 'big', monthly ? `${ils(monthly)} בחודש` : '0 ₪ 😇');
+    out(form, 'row', monthly ? `
+      <span>בשנה: <b>${ils(monthly * 12)}</b></span>
+      <span>מושקע 10 שנים: <b>${ils(fv10)}</b></span>` : '');
+    let quip = '';
+    if (!monthly) quip = 'סמנו הרגלים ונראה כמה הם באמת עולים.';
+    else if (Number.isFinite(base) && Number.isFinite(faster) && base > faster) {
+      quip = `אם תחסכו אותם, תגיעו להון העצמי <b>${yearsMonths(base - faster)}</b> מוקדם יותר${Profile.get() ? ' (לפי המפה שלכם)' : ''}. לא אומרים לוותר על הכל, רק לבחור. ☕`;
+    } else if (!Number.isFinite(base) && Number.isFinite(faster)) {
+      quip = `בלי ההרגלים האלה, היעד פתאום אפשרי: <b>${yearsMonths(faster)}</b> במקום "לעולם לא". 🤯`;
+    } else quip = 'כל שקל שחוזר אליכם הוא לבנה בבית העתידי. 🧱';
+    out(form, 'quip', quip);
+  },
+
   afford(form) {
     const income = num(form, 'income');
     const equity = num(form, 'equity');
     const share = num(form, 'share');
     const rate = num(form, 'rate');
     const years = num(form, 'years');
-    const ltvPct = num(form, 'buyer'); // אחוז הון עצמי מינימלי
-    const shareOut = form.querySelector('output[name="shareOut"]');
-    if (shareOut) shareOut.value = `${share}%`;
+    const ltvPct = num(form, 'buyer');
     const payment = income * share / 100;
     const loanByIncome = pv(payment, rate, years);
     const priceByIncome = equity + loanByIncome;
@@ -151,17 +419,21 @@ const CALCS = {
     out(form, 'row', `
       <span>משכנתא: <b>${ils(loan)}</b></span>
       <span>החזר חודשי: <b>${ils(pmt(loan, rate, years))}</b></span>`);
+    const bar = form.querySelector('[data-bar]');
+    if (bar && price > 0) {
+      bar.innerHTML = `<span style="width:${(equity / price) * 100}%" class="b-eq">הון עצמי</span><span style="width:${(loan / price) * 100}%" class="b-loan">משכנתא</span>`;
+    }
     out(form, 'quip', price <= 0 ? 'תכניסו הכנסה והון עצמי 🙂'
       : limiter === 'income'
         ? '🧱 מה שעוצר אתכם הוא <b>ההכנסה</b>: הבנק לא ייתן החזר גבוה יותר. העלאה בשכר או בן/בת זוג עם משכורת עוזרים (רומנטי, אנחנו יודעים).'
         : '🧱 מה שעוצר אתכם הוא <b>ההון העצמי</b>: הבנק מממן רק חלק מהמחיר. כל שקל שתחסכו מגדיל את הדירה פי כמה.');
   },
 
-  // החזר חודשי
   mortgage(form) {
     const loan = num(form, 'loan');
     const rate = num(form, 'rate');
     const years = num(form, 'years');
+    const stress = num(form, 'stress');
     const p = pmt(loan, rate, years);
     const total = p * years * 12;
     const interest = Math.max(0, total - loan);
@@ -169,14 +441,25 @@ const CALCS = {
     out(form, 'row', `
       <span>סה״כ תחזירו: <b>${ils(total)}</b></span>
       <span>מתוכם ריבית: <b>${ils(interest)}</b></span>`);
+    const bar = form.querySelector('[data-bar]');
+    if (bar && total > 0) {
+      bar.innerHTML = `<span style="width:${(loan / total) * 100}%" class="b-eq">קרן</span><span style="width:${(interest / total) * 100}%" class="b-loan">ריבית</span>`;
+    }
     const ratio = loan > 0 ? interest / loan : 0;
     out(form, 'quip', loan <= 0 ? '' : ratio > 0.8
       ? `הבנק מודה לכם על ${ils(interest)} 😘 נסו לקצר את התקופה ותראו מה קורה.`
       : ratio > 0.4 ? 'הריבית היא חלק רציני מהסיפור. כל עשירית אחוז שווה מיקוח.'
       : 'יפה! ריבית סבירה יחסית. הבנק פחות מחייך היום.');
+    // מבחן לחץ
+    const p2 = pmt(loan, rate + stress, years);
+    const d = p > 0 ? (p2 - p) / p : 0;
+    const face = stress === 0 ? '😎' : d < 0.05 ? '🙂' : d < 0.12 ? '😐' : d < 0.2 ? '😬' : d < 0.3 ? '😰' : '😱';
+    out(form, 'face', face);
+    out(form, 'stressText', stress === 0
+      ? 'גררו את הסליידר וראו מה קורה אם הריבית עולה.'
+      : `אם הריבית תעלה ב־${stress}%, ההחזר יקפוץ ל־<b>${ils(p2)}</b> (+${ils(p2 - p)} בחודש, +${Math.round(d * 100)}%).`);
   },
 
-  // מס רכישה
   tax(form) {
     const price = num(form, 'price');
     const kind = form.elements.kind.value;
@@ -190,17 +473,17 @@ const CALCS = {
         : 'משלמים רק על החלק שמעל הסף, לא על כל המחיר. נשמע הוגן, לא?');
   },
 
-  // לקנות או לשכור ולהשקיע
   rentbuy(form) {
     const price = num(form, 'price');
     const equity = num(form, 'equity');
     const rate = num(form, 'rate');
-    let rent = num(form, 'rent');
+    const rent0 = num(form, 'rent');
+    let rent = rent0;
     const horizon = Math.max(1, Math.round(num(form, 'horizon')));
     const appr = num(form, 'appr') / 100;
     const inv = num(form, 'inv') / 100;
     const term = 25;
-    const upfront = price * 0.03;                // עו"ד, שמאי, תיווך וכו'
+    const upfront = price * 0.03;
     const down = Math.max(0, equity - upfront);
     const loan = Math.max(0, price - down);
     const pay = pmt(loan, rate, term);
@@ -208,6 +491,7 @@ const CALCS = {
     const ri = Math.pow(1 + inv, 1 / 12) - 1;
     const ra = Math.pow(1 + appr, 1 / 12) - 1;
     let home = price, bal = loan, buyerPort = 0, renterPort = equity;
+    const bSeries = [price - loan], rSeries = [equity];
     for (let m = 1; m <= horizon * 12; m++) {
       const mortgage = m <= term * 12 ? pay : 0;
       const maintenance = home * 0.005 / 12;
@@ -217,10 +501,14 @@ const CALCS = {
       renterPort *= 1 + ri;
       const diff = (mortgage + maintenance) - rent;
       if (diff > 0) renterPort += diff; else buyerPort += -diff;
-      if (m % 12 === 0) rent *= 1 + appr;
+      if (m % 12 === 0) {
+        rent *= 1 + appr;
+        bSeries.push(home - Math.max(0, bal) + buyerPort);
+        rSeries.push(renterPort);
+      }
     }
-    const buyerNW = home - Math.max(0, bal) + buyerPort;
-    const renterNW = renterPort;
+    const buyerNW = bSeries[bSeries.length - 1];
+    const renterNW = rSeries[rSeries.length - 1];
     const buyWins = buyerNW >= renterNW;
     out(form, 'duo', `
       <div class="${buyWins ? 'win' : ''}"><span class="label">🔑 קונים</span><span class="big">${ils(buyerNW)}</span></div>
@@ -232,16 +520,51 @@ const CALCS = {
       : buyWins
         ? `🔑 בתרחיש הזה הקנייה מנצחת ב־${ils(gap)}. הדוד שאמר "שכירות זה כסף לפח" מחייך עכשיו.`
         : `🧳 בתרחיש הזה השכירות + השקעה מנצחת ב־${ils(gap)}. בתנאי שבאמת משקיעים את ההפרש ולא קונים בו נעליים.`);
-    out(form, 'mpay', `החזר משכנתא חודשי בתרחיש: <b>${ils(pay)}</b> · שכירות בהתחלה: <b>${ils(num(form, 'rent'))}</b>`);
+    out(form, 'mpay', `החזר משכנתא חודשי בתרחיש: <b>${ils(pay)}</b> · שכירות בהתחלה: <b>${ils(rent0)}</b>`);
+    lineChart(form.querySelector('[data-chart]'), [
+      { data: bSeries, color: 'var(--primary)', label: 'קונים' },
+      { data: rSeries, color: 'var(--mint)', label: 'שוכרים ומשקיעים' },
+    ], { xLabel: (i) => (i === 0 ? 'היום' : `שנה ${i}`), points: [0, Math.round(horizon / 2), horizon] });
   },
 };
 
-document.querySelectorAll('form[data-calc]').forEach((form) => {
-  const fn = CALCS[form.dataset.calc];
-  if (!fn) return;
-  const run = () => { try { fn(form); } catch (e) { console.error(e); } };
-  form.addEventListener('input', run);
-  form.addEventListener('change', run);
-  form.addEventListener('submit', (e) => e.preventDefault());
-  run();
-});
+/* מילוי אוטומטי מהפרופיל: <input data-p="price|saved|monthly|income|equity|loan|pct"> */
+function prefill(form) {
+  const p = Profile.get();
+  if (!p) return;
+  form.querySelectorAll('[data-p]').forEach((el) => {
+    const k = el.dataset.p;
+    const v = k === 'equity' ? p.saved
+      : k === 'loan' ? Math.max(0, Math.round(p.price * (1 - p.pct / 100) / 10000) * 10000)
+      : p[k];
+    if (v == null) return;
+    if (el.tagName === 'SELECT') {
+      if ([...el.options].some((o) => o.value === String(v))) el.value = String(v);
+    } else el.value = v;
+  });
+}
+
+function initCalcs(root = document) {
+  root.querySelectorAll('form[data-calc]').forEach((form) => {
+    if (form.dataset.ready) return;
+    form.dataset.ready = '1';
+    const name = form.dataset.calc;
+    const fn = CALCS[name];
+    if (!fn) return;
+    prefill(form);
+    enhanceSliders(form);
+    const run = () => { try { fn(form); } catch (e) { console.error(e); } };
+    form.addEventListener('input', (e) => {
+      run();
+      if (e.isTrusted || e.target.type === 'text') {
+        XP.award(`calc_${name}`);
+        if (name === 'mortgage' && e.target.name === 'stress' && num(form, 'stress') > 0) XP.award('stress');
+      }
+    });
+    form.addEventListener('change', run);
+    form.addEventListener('submit', (e) => e.preventDefault());
+    form._run = run;
+    run();
+  });
+}
+initCalcs();

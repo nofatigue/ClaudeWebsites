@@ -29,19 +29,19 @@
           <div class="fields">
             <div class="field">
               <label for="rb-price">מחיר הדירה (₪)</label>
-              <input id="rb-price" name="price" type="number" inputmode="numeric" min="0" step="10000" value="1800000">
+              <input id="rb-price" name="price" data-p="price" data-range="500000,5000000,10000" value="1800000">
             </div>
             <div class="field">
               <label for="rb-equity">הון עצמי שיש לכם (₪)</label>
-              <input id="rb-equity" name="equity" type="number" inputmode="numeric" min="0" step="10000" value="500000">
+              <input id="rb-equity" name="equity" data-p="equity" data-range="0,3000000,10000" value="500000">
             </div>
             <div class="field">
               <label for="rb-rent">שכר דירה לדירה דומה (₪ בחודש)</label>
-              <input id="rb-rent" name="rent" type="number" inputmode="numeric" min="0" step="100" value="5500">
+              <input id="rb-rent" name="rent" data-range="1500,20000,100" value="5500">
             </div>
             <div class="field">
               <label for="rb-horizon">לכמה שנים קדימה להסתכל</label>
-              <input id="rb-horizon" name="horizon" type="number" inputmode="numeric" min="1" max="40" step="1" value="20">
+              <input id="rb-horizon" name="horizon" data-range="3,40,1" value="20">
             </div>
           </div>
           <details class="adv">
@@ -49,15 +49,15 @@
             <div class="fields">
               <div class="field">
                 <label for="rb-rate">ריבית משכנתא (%)</label>
-                <input id="rb-rate" name="rate" type="number" inputmode="decimal" min="0" max="15" step="0.1" value="4.5">
+                <input id="rb-rate" name="rate" data-range="1,9,0.1" value="4.5">
               </div>
               <div class="field">
                 <label for="rb-appr">עליית מחירי דירות ושכירות בשנה (%)</label>
-                <input id="rb-appr" name="appr" type="number" inputmode="decimal" min="-5" max="15" step="0.5" value="3">
+                <input id="rb-appr" name="appr" data-range="-3,10,0.5" value="3">
               </div>
               <div class="field">
                 <label for="rb-inv">תשואה שנתית על השקעה (%)</label>
-                <input id="rb-inv" name="inv" type="number" inputmode="decimal" min="0" max="15" step="0.5" value="5">
+                <input id="rb-inv" name="inv" data-range="0,12,0.5" value="5">
               </div>
             </div>
           </details>
@@ -66,6 +66,7 @@
             <div class="duo" data-out="duo" style="margin-top:8px"></div>
             <p class="quip" data-out="quip"></p>
             <div class="row"><span data-out="mpay"></span></div>
+            <div class="chart" data-chart></div>
           </div>
           <p class="assumptions">המודל: משכנתא ל־25 שנה, 3% עלויות קנייה, 0.5% מערך הדירה בשנה לתחזוקה. מי שההוצאה החודשית שלו נמוכה יותר משקיע את ההפרש. בלי מסים ועמלות. זה כלי לחשוב איתו, לא נבואה.</p>
         </form>
