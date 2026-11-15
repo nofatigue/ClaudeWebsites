@@ -1,0 +1,224 @@
+/* ---------- Tokens ---------- */
+:root {
+  --bg: #FBF6EC;
+  --bg-2: #F3EADA;
+  --surface: #FFFDF8;
+  --ink: #1F2340;
+  --muted: #5E6178;
+  --gold: #B8862B;
+  --gold-soft: #F4E4C1;
+  --primary: #2E3A8C;
+  --primary-ink: #FFFFFF;
+  --line: #E4D7BE;
+  --ok: #2F7D5B;
+  --ok-soft: #DDF0E5;
+  --shadow: 0 1px 2px rgba(31, 35, 64, .06), 0 8px 24px rgba(31, 35, 64, .07);
+  --radius: 20px;
+  --maxw: 860px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12142A;
+    --bg-2: #181B36;
+    --surface: #1C2040;
+    --ink: #F3EDE1;
+    --muted: #AEB0C6;
+    --gold: #E2B455;
+    --gold-soft: #3A3220;
+    --primary: #A9B4FF;
+    --primary-ink: #12142A;
+    --line: #2E3360;
+    --ok: #6FD1A3;
+    --ok-soft: #1D3A30;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 8px 24px rgba(0, 0, 0, .3);
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12142A;
+  --bg-2: #181B36;
+  --surface: #1C2040;
+  --ink: #F3EDE1;
+  --muted: #AEB0C6;
+  --gold: #E2B455;
+  --gold-soft: #3A3220;
+  --primary: #A9B4FF;
+  --primary-ink: #12142A;
+  --line: #2E3360;
+  --ok: #6FD1A3;
+  --ok-soft: #1D3A30;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 8px 24px rgba(0, 0, 0, .3);
+}
+
+/* ---------- Base ---------- */
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Assistant", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  font-size: 18px;
+  line-height: 1.65;
+}
+a { color: var(--primary); font-weight: 600; text-underline-offset: 3px; }
+h1, h2, h3 { line-height: 1.2; margin: 0 0 .5em; font-weight: 800; }
+h1 { font-family: "Frank Ruhl Libre", serif; font-size: clamp(2rem, 7vw, 3.2rem); font-weight: 700; }
+h2 { font-size: clamp(1.35rem, 4.5vw, 1.8rem); }
+h3 { font-size: 1.15rem; }
+p { margin: 0 0 1em; }
+.wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 16px; }
+main { padding-bottom: 56px; }
+.muted { color: var(--muted); }
+.small { font-size: .9rem; }
+section { margin-top: 44px; }
+.section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.section-head p { margin: 0; }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; border-radius: 8px; }
+
+/* ---------- Header / Footer ---------- */
+.site-header {
+  position: sticky; top: 0; z-index: 10;
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+.site-header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-top: 10px; padding-bottom: 10px; flex-wrap: wrap; }
+.logo { display: inline-flex; align-items: center; gap: 8px; color: var(--ink); text-decoration: none; font-family: "Frank Ruhl Libre", serif; font-weight: 700; font-size: 1.35rem; }
+.logo-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 0 4px var(--gold-soft); }
+.nav { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; }
+.nav a { color: var(--muted); text-decoration: none; padding: 6px 12px; border-radius: 999px; font-weight: 600; font-size: .98rem; }
+.nav a:hover { color: var(--ink); background: var(--bg-2); }
+.nav a[aria-current="page"] { color: var(--ink); background: var(--gold-soft); }
+.theme-btn { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; width: 36px; height: 36px; display: inline-grid; place-items: center; }
+.site-footer { border-top: 1px solid var(--line); padding: 28px 0 40px; color: var(--muted); font-size: .92rem; }
+.site-footer p { margin: 0 0 .4em; }
+
+/* ---------- Hero ---------- */
+.hero { margin-top: 36px; text-align: center; }
+.hebdate { display: inline-block; color: var(--gold); font-weight: 700; letter-spacing: .3px; margin-bottom: 8px; }
+.lead { font-size: 1.15rem; color: var(--muted); max-width: 560px; margin: 0 auto 0; }
+
+/* ---------- Etza card ---------- */
+.etza {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 28px 24px 20px;
+  position: relative;
+  text-align: right;
+}
+.etza.big { margin-top: 24px; padding: 36px 28px 22px; }
+.etza .tag { display: inline-flex; gap: 6px; align-items: center; font-size: .85rem; font-weight: 700; color: var(--gold); background: var(--gold-soft); padding: 3px 10px; border-radius: 999px; }
+.etza blockquote {
+  margin: 14px 0 10px;
+  font-family: "Frank Ruhl Libre", serif;
+  font-size: 1.45rem;
+  line-height: 1.6;
+  font-weight: 500;
+}
+.etza.big blockquote { font-size: clamp(1.55rem, 5vw, 2.1rem); }
+.etza blockquote::before { content: "״"; color: var(--gold); margin-left: 2px; }
+.etza blockquote::after { content: "״"; color: var(--gold); }
+.etza .src { color: var(--muted); font-size: .95rem; margin-bottom: 16px; }
+.etza .src .free { font-size: .8rem; border: 1px dashed var(--line); border-radius: 6px; padding: 0 6px; margin-right: 6px; white-space: nowrap; }
+.etza .plain { margin-bottom: 14px; }
+.etza .plain b { color: var(--ink); }
+.etza .act {
+  background: var(--ok-soft);
+  border-radius: 14px;
+  padding: 12px 14px;
+  display: flex; gap: 10px; align-items: flex-start;
+}
+.etza .act .ico { font-size: 1.2rem; line-height: 1.5; }
+.etza .act b { display: block; color: var(--ok); font-size: .88rem; }
+.etza .tools { display: flex; gap: 6px; margin-top: 14px; flex-wrap: wrap; justify-content: flex-end; }
+.tool {
+  border: 1px solid var(--line); background: transparent; border-radius: 999px;
+  padding: 6px 14px; font-weight: 600; font-size: .92rem; color: var(--muted);
+  display: inline-flex; gap: 6px; align-items: center;
+}
+.tool:hover { color: var(--ink); border-color: var(--gold); }
+.tool.on { color: var(--gold); border-color: var(--gold); }
+.btn {
+  border: 0; background: var(--primary); color: var(--primary-ink);
+  border-radius: 999px; padding: 12px 22px; font-weight: 700;
+  display: inline-flex; gap: 8px; align-items: center; text-decoration: none;
+}
+.btn.ghost { background: transparent; color: var(--primary); border: 1px solid var(--line); }
+.btn:hover { filter: brightness(1.08); }
+.center { text-align: center; }
+.row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 16px; }
+
+/* ---------- Mood chips ---------- */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 0; }
+.chip {
+  border: 1px solid var(--line); background: var(--surface); border-radius: 999px;
+  padding: 8px 16px; font-weight: 600;
+  display: inline-flex; gap: 6px; align-items: center;
+  transition: transform .12s ease, border-color .12s;
+}
+.chip:hover { border-color: var(--gold); transform: translateY(-1px); }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.chips.small .chip { padding: 5px 12px; font-size: .92rem; }
+#mood-result { margin-top: 18px; }
+#mood-result:empty { display: none; }
+.fade-in { animation: fade .35s ease both; }
+@keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+/* ---------- Daily deed ---------- */
+.deed {
+  background: linear-gradient(135deg, var(--gold-soft), var(--surface));
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 24px;
+  display: grid; gap: 14px;
+}
+.deed .what { font-family: "Frank Ruhl Libre", serif; font-size: 1.4rem; line-height: 1.5; margin: 0; }
+.deed-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.btn.done { background: var(--ok); color: #fff; }
+.week { display: flex; gap: 6px; align-items: center; }
+.week span {
+  width: 28px; height: 28px; border-radius: 50%; display: inline-grid; place-items: center;
+  font-size: .75rem; font-weight: 700; border: 1px solid var(--line); color: var(--muted); background: var(--surface);
+}
+.week span.on { background: var(--ok); border-color: var(--ok); color: #fff; }
+.week span.today { box-shadow: 0 0 0 2px var(--gold); }
+.streak { font-weight: 700; color: var(--muted); font-size: .95rem; }
+
+/* ---------- Library ---------- */
+.filters { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; display: grid; gap: 12px; margin-top: 18px; }
+.filters label.lbl { font-weight: 700; font-size: .85rem; color: var(--muted); display: block; }
+.filters .chips { margin: 4px 0 0; }
+.search { width: 100%; border: 1px solid var(--line); background: var(--bg); color: var(--ink); border-radius: 12px; padding: 10px 14px; font: inherit; }
+.grid { display: grid; gap: 16px; margin-top: 18px; }
+.count { margin-top: 14px; color: var(--muted); font-size: .95rem; }
+.empty { text-align: center; color: var(--muted); padding: 40px 0; }
+
+/* ---------- About ---------- */
+.steps { display: grid; gap: 12px; counter-reset: s; padding: 0; list-style: none; }
+.steps li { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px 14px 16px; display: flex; gap: 12px; align-items: flex-start; }
+.steps li::before { counter-increment: s; content: counter(s); flex: none; width: 30px; height: 30px; border-radius: 50%; background: var(--gold-soft); color: var(--gold); display: grid; place-items: center; font-weight: 800; }
+.cards3 { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.box { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px; }
+.box h3 { margin-bottom: .3em; }
+.box p { margin: 0; color: var(--muted); }
+.note { border-right: 4px solid var(--gold); background: var(--bg-2); padding: 14px 16px; border-radius: 10px; }
+
+/* ---------- Toast ---------- */
+.toast {
+  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(20px);
+  background: var(--ink); color: var(--bg); padding: 10px 18px; border-radius: 999px; font-weight: 600;
+  opacity: 0; pointer-events: none; transition: .25s; z-index: 50; max-width: calc(100% - 32px); text-align: center;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+@media (max-width: 560px) {
+  body { font-size: 17px; }
+  .etza { padding: 22px 18px 16px; }
+  .etza.big { padding: 26px 20px 18px; }
+  .nav a { padding: 5px 9px; font-size: .92rem; }
+  .logo { font-size: 1.2rem; }
+}
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
