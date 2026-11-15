@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&family=Frank+Ruhl+Libre:wght@500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=1">
+  <link rel="stylesheet" href="assets/style.css?v=2">
 </head>
 <body data-section="home">
   <header id="site-header"></header>
@@ -48,16 +48,16 @@
         </div>
         <div class="streak" id="streak"></div>
       </div>
-      <p class="small muted" style="margin-top:10px">"מעט מן האור דוחה הרבה מן החושך" (תניא, פרק יב). המעשה מתחלף כל יום.</p>
+      <p class="small muted" style="margin-top:10px">״מעט אור גשמי דוחה הרבה מן החושך״ (<a data-src="tanya-12"></a>). המעשה מתחלף כל יום.</p>
     </section>
   </main>
 
   <footer id="site-footer"></footer>
 
-  <script src="assets/data.js?v=1"></script>
-  <script src="assets/app.js?v=1"></script>
+  <script src="assets/data.js?v=2"></script>
+  <script src="assets/app.js?v=2"></script>
   <script>
-  (function () {
+  sourcesReady.then(function () {
     $('#hebdate').textContent = hebrewDate();
 
     /* --- העצה של היום (קבועה לכל היום, אותה לכולם) --- */
@@ -126,7 +126,7 @@
       if (d[k]) toast('יישר כוח! עוד נקודה של אור ✨');
     });
     renderDeed();
-  })();
+  });
   </script>
 </body>
 </html>

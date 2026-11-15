@@ -1,10 +1,11 @@
 /* ===== הגדרות כלליות ===== */
 const SITE_NAME = 'נקודה טובה';
-const VERSION = 1; // להעלות בכל עדכון, יחד עם ?v= בקבצי ה-HTML
+const VERSION = 2; // להעלות בכל עדכון, יחד עם ?v= בקבצי ה-HTML
 
 const NAV = [
   ['index.html', 'היום', 'home'],
   ['etzot.html', 'כל העצות', 'etzot'],
+  ['sources.html', 'מקורות', 'sources'],
   ['about.html', 'על האתר', 'about'],
 ];
 
@@ -37,6 +38,43 @@ function toast(msg) {
   toast._t = setTimeout(() => t.classList.remove('show'), 2200);
 }
 
+/* ===== מאגר המקורות (assets/sources.json) ===== */
+let SRC = {}, SRC_META = {};
+const STATUS = {
+  verified: { label: 'אומת מול ספריא', short: '✓ אומת', cls: 'st-ok' },
+  secondary: { label: 'מקור משני: לא אותר המקור הראשוני', short: '◐ מקור משני', cls: 'st-mid' },
+  tradition: { label: 'מסורת בעל פה, בלי מקור כתוב ידוע', short: '○ מסורת', cls: 'st-trad' },
+};
+const sourcesReady = fetch(`assets/sources.json?v=${VERSION}`)
+  .then((r) => r.json())
+  .then((j) => { SRC = j.sources || {}; SRC_META = j.meta || {}; })
+  .catch(() => { console.warn('לא נטען מאגר המקורות (צריך שרת, לא file://)'); });
+
+const srcLabel = (id) => { const s = SRC[id]; return s ? `${s.book}, ${s.loc}` : id; };
+// קישור למקור: תמיד לרשומה במאגר (sources.html#id)
+function srcLink(id) {
+  const s = SRC[id];
+  if (!s) return `<span>${esc(id)}</span>`;
+  return `<a class="src-link" href="sources.html#${encodeURIComponent(id)}" title="${esc(STATUS[s.status]?.label || '')}">${esc(srcLabel(id))}</a>`;
+}
+function srcBadge(id, basis = false) {
+  const st = STATUS[SRC[id]?.status];
+  if (!st) return '';
+  const short = basis && SRC[id].status === 'verified' ? '✓ מקור הרעיון אומת' : st.short;
+  return `<span class="st ${st.cls}" title="${esc(st.label)}">${short}</span>`;
+}
+// ממלא כל <a data-src="id"> בעמוד בקישור למאגר
+function fillSrcLinks(root = document) {
+  root.querySelectorAll('[data-src]').forEach((el) => {
+    const id = el.dataset.src;
+    el.href = `sources.html#${encodeURIComponent(id)}`;
+    el.classList.add('src-link');
+    if (!el.textContent.trim()) el.textContent = srcLabel(id);
+    el.title = STATUS[SRC[id]?.status]?.label || '';
+  });
+}
+sourcesReady.then(() => fillSrcLinks());
+
 /* ===== מועדפים ===== */
 const Favs = {
   list() { return store.get('favs-v1', []); },
@@ -52,13 +90,20 @@ const Favs = {
 
 /* ===== כרטיס עצה ===== */
 function etzaHTML(e, { big = false, label = '' } = {}) {
-  const s = SOURCES[e.who];
+  const s = TRADITIONS[e.who];
+  const main = e.refs[0];
+  const more = e.refs.slice(1);
+  const url = SRC[main]?.url;
   const fav = Favs.has(e.id);
   return `
   <article class="etza ${big ? 'big' : ''} fade-in" data-id="${e.id}">
     <span class="tag">${label ? esc(label) + ' · ' : ''}${esc(s.name)}</span>
     <blockquote>${esc(e.text)}</blockquote>
-    <div class="src">${esc(e.src)}${e.free ? '<span class="free" title="הלשון מקוצרת או חופשית, ולא ציטוט מילה במילה">בלשון חופשית</span>' : ''}</div>
+    <div class="src">
+      ${SRC[main]?.author ? `<span class="who">${esc(SRC[main].author)}</span> · ` : ''}${e.basis ? 'על פי ' : ''}${srcLink(main)}${more.length ? `; וראו ${more.map(srcLink).join('; ')}` : ''}
+      ${srcBadge(main, e.basis)}${e.free ? '<span class="free" title="הלשון מקוצרת או חופשית, ולא ציטוט מילה במילה">בלשון חופשית</span>' : ''}
+      ${url ? `<a class="sefaria" href="${esc(url)}" target="_blank" rel="noopener">בספריא ↗</a>` : ''}
+    </div>
     <p class="plain"><b>בשפה פשוטה:</b> ${esc(e.plain)}</p>
     <div class="act"><span class="ico" aria-hidden="true">👣</span><div><b>מה עושים עם זה היום?</b>${esc(e.act)}</div></div>
     <div class="tools">
@@ -69,7 +114,7 @@ function etzaHTML(e, { big = false, label = '' } = {}) {
 }
 
 function shareText(e) {
-  return `״${strip(e.text)}״\n(${e.src})\n\n👣 ${e.act}\n\nמתוך "${SITE_NAME}"`;
+  return `״${strip(e.text)}״\n(${e.basis ? 'על פי ' : ''}${e.refs.map(srcLabel).join('; ')})\n\n👣 ${e.act}\n\nמתוך "${SITE_NAME}"`;
 }
 
 async function shareEtza(e) {

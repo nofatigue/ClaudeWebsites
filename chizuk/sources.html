@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>מאגר המקורות · נקודה טובה</title>
+  <meta name="description" content="כל המקורות של העצות באתר נקודה טובה: הנוסח המקורי, קישור לספריא, ומצב הבדיקה של כל מקור.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕯️</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&family=Frank+Ruhl+Libre:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css?v=2">
+</head>
+<body data-section="sources">
+  <header id="site-header"></header>
+
+  <main class="wrap">
+    <section style="margin-top:32px">
+      <h1>מאגר המקורות</h1>
+      <p class="lead" style="margin:0">כל מקור שמופיע באתר, עם הנוסח כפי שהוא כתוב בספר, קישור לספריא, ואילו עצות מתבססות עליו.</p>
+      <div class="filters">
+        <div>
+          <label class="lbl">מצב הבדיקה</label>
+          <div class="chips small" id="f-status"></div>
+        </div>
+      </div>
+      <p class="count" id="summary"></p>
+      <div class="grid" id="list"></div>
+    </section>
+  </main>
+
+  <footer id="site-footer"></footer>
+
+  <script src="assets/data.js?v=2"></script>
+  <script src="assets/app.js?v=2"></script>
+  <script>
+  sourcesReady.then(function () {
+    const ids = Object.keys(SRC);
+    if (!ids.length) { $('#list').innerHTML = '<div class="empty">לא הצלחנו לטעון את המאגר.</div>'; return; }
+    let filter = 'all';
+    const used = (id) => ETZOT.filter((e) => e.refs.includes(id));
+    const counts = ids.reduce((c, id) => { c[SRC[id].status] = (c[SRC[id].status] || 0) + 1; return c; }, {});
+
+    function renderFilters() {
+      $('#f-status').innerHTML = [['all', `הכל (${ids.length})`], ...Object.entries(STATUS).map(([k, s]) => [k, `${s.short} (${counts[k] || 0})`])]
+        .map(([k, l]) => `<button type="button" class="chip" data-st="${k}" aria-pressed="${filter === k}">${l}</button>`).join('');
+    }
+    function render() {
+      const list = ids.filter((id) => filter === 'all' || SRC[id].status === filter);
+      $('#list').innerHTML = list.map((id) => {
+        const s = SRC[id], st = STATUS[s.status];
+        const es = used(id);
+        return `<article class="srcbox fade-in" id="${esc(id)}">
+          <div class="srcbox-head">
+            <h3>${esc(s.book)}, ${esc(s.loc)}</h3>
+            <span class="st ${st.cls}">${st.short}</span>
+          </div>
+          ${s.author ? `<div class="muted small">${esc(s.author)}</div>` : ''}
+          ${s.original ? `<blockquote class="orig">${esc(s.original)}</blockquote>` : '<p class="muted small" style="margin:10px 0">אין נוסח כתוב ידוע.</p>'}
+          <p class="small muted" style="margin:0 0 8px">${esc(st.label)}${s.note ? `. ${esc(s.note)}` : ''}</p>
+          <div class="srcbox-foot">
+            ${s.url ? `<a class="sefaria" href="${esc(s.url)}" target="_blank" rel="noopener">לפתוח בספריא ↗</a>` : ''}
+            ${es.length ? `<span class="small">מופיע בעצות: ${es.map((e) => `<a href="etzot.html#${e.id}">״${esc(strip(e.text).split(' ').slice(0, 5).join(' '))}…״</a>`).join(' · ')}</span>` : ''}
+          </div>
+        </article>`;
+      }).join('');
+      $('#summary').textContent = `${list.length} מקורות · נבדק לאחרונה: ${new Date(SRC_META.checked || Date.now()).toLocaleDateString('he-IL')}`;
+    }
+    $('#f-status').addEventListener('click', (ev) => {
+      const b = ev.target.closest('.chip'); if (!b) return;
+      filter = b.dataset.st; renderFilters(); render();
+    });
+    renderFilters(); render();
+    const h = decodeURIComponent(location.hash.slice(1));
+    const el = h && document.getElementById(h);
+    if (el) { el.scrollIntoView({ block: 'center' }); el.classList.add('hl'); }
+  });
+  </script>
+</body>
+</html>

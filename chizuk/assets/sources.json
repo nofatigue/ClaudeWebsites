@@ -1,0 +1,304 @@
+{
+  "meta": {
+    "description": "מאגר המקורות של האתר. כל עצה ב-data.js מפנה לכאן לפי מזהה (refs).",
+    "checked": "2026-11-15",
+    "status": {
+      "verified": "אומת: הנוסח נמצא במקור, מול הטקסט בספריא",
+      "secondary": "מקור משני: הייחוס מופיע בספרות ובאתרים אמינים, אבל לא אותר כאן המקור הראשוני",
+      "tradition": "מסורת: אמרה או סיפור שמסופרים בשם הצדיק, בלי מקור כתוב ידוע"
+    },
+    "fields": "book, loc, author, sefaria (Ref באנגלית לפי ספריא) או url, original (הנוסח במקור, בלי ניקוד), status, note"
+  },
+  "sources": {
+    "lm2-24": {
+      "book": "ליקוטי מוהר״ן תנינא",
+      "loc": "תורה כד",
+      "author": "רבי נחמן מברסלב",
+      "sefaria": "Likutei Moharan, Part II.24",
+      "original": "מצוה גדולה להיות בשמחה תמיד, ולהתגבר להרחיק העצבות והמרה שחורה בכל כחו",
+      "status": "verified",
+      "url": "https://www.sefaria.org.il/Likutei_Moharan,_Part_II.24?lang=he"
+    },
+    "lm2-48": {
+      "book": "ליקוטי מוהר״ן תנינא",
+      "loc": "תורה מח",
+      "author": "רבי נחמן מברסלב",
+      "sefaria": "Likutei Moharan, Part II.48",
+      "original": "ודע, שהאדם צריך לעבר על גשר צר מאד מאד, והכלל והעקר שלא יתפחד כלל",
+      "status": "verified",
+      "note": "הנוסח המוכר מהשיר (״כל העולם כולו גשר צר מאד״) הוא עיבוד; זה הנוסח במקור.",
+      "url": "https://www.sefaria.org.il/Likutei_Moharan,_Part_II.48?lang=he"
+    },
+    "lm2-112": {
+      "book": "ליקוטי מוהר״ן תנינא",
+      "loc": "תורה קיב",
+      "author": "רבי נחמן מברסלב",
+      "sefaria": "Likutei Moharan, Part II.112",
+      "original": "ענה ואמר: אם אתה מאמין שיכולין לקלקל, תאמין שיכולין לתקן",
+      "status": "verified",
+      "url": "https://www.sefaria.org.il/Likutei_Moharan,_Part_II.112?lang=he"
+    },
+    "lm2-78": {
+      "book": "ליקוטי מוהר״ן תנינא",
+      "loc": "תורה עח",
+      "author": "רבי נחמן מברסלב",
+      "sefaria": "Likutei Moharan, Part II.78",
+      "original": "והעקר לחזק עצמו בכל מה שאפשר, כי אין שום יאוש בעולם כלל",
+      "status": "verified",
+      "note": "שם ממשיך: ״ואמר אז בזה הלשון: קיין יאוש איז גאר ניט פאר האנדין״ (אין שום ייאוש בעולם).",
+      "url": "https://www.sefaria.org.il/Likutei_Moharan,_Part_II.78?lang=he"
+    },
+    "lm2-25": {
+      "book": "ליקוטי מוהר״ן תנינא",
+      "loc": "תורה כה",
+      "author": "רבי נחמן מברסלב",
+      "sefaria": "Likutei Moharan, Part II.25",
+      "original": "ההתבודדות הוא מעלה עליונה וגדולה מן הכל, דהינו לקבע לו על כל פנים שעה או יותר להתבודד לבדו באיזה חדר או בשדה, ולפרש שיחתו בינו לבין קונו",
+      "status": "verified",
+      "url": "https://www.sefaria.org.il/Likutei_Moharan,_Part_II.25?lang=he"
+    },
+    "sichot-145": {
+      "book": "שיחות הר״ן",
+      "loc": "סימן קמה",
+      "author": "רבי נחמן מברסלב (רשם רבי נתן)",
+      "sefaria": "Sichot HaRan 145",
+      "original": "כשדבר עמי, וגלה לי הדרך – לעשות מהתורות תפלות (כנדפס בלקוטי תנינא סימן כ״ה) אמר לי: שטוב לכתב לעצמו התפלות",
+      "status": "verified",
+      "note": "וכן בליקוטי עצות, התבודדות יד: ״גם טוב לעשות מהתורות תפלות״.",
+      "url": "https://www.sefaria.org.il/Sichot_HaRan.145?lang=he"
+    },
+    "lm1-282": {
+      "book": "ליקוטי מוהר״ן",
+      "loc": "תורה רפב (״אזמרה״)",
+      "author": "רבי נחמן מברסלב",
+      "sefaria": "Likutei Moharan 282",
+      "original": "דע כי צריך לדון את כל אדם לכף זכות, ואפלו מי שהוא רשע גמור, צריך לחפש ולמצא בו איזה מעט טוב",
+      "status": "verified",
+      "url": "https://www.sefaria.org.il/Likutei_Moharan.282?lang=he"
+    },
+    "lm1-282-self": {
+      "book": "ליקוטי מוהר״ן",
+      "loc": "תורה רפב (״אזמרה״), ההמשך",
+      "author": "רבי נחמן מברסלב",
+      "sefaria": "Likutei Moharan 282",
+      "original": "וכן צריך האדם למצא גם בעצמו... ואפלו כשמתחיל להסתכל בעצמו ורואה שאין בו שום טוב, והוא מלא חטאים... אסור לו לפל מזה, רק צריך לחפש ולמצא בעצמו איזה מעט טוב",
+      "status": "verified",
+      "url": "https://www.sefaria.org.il/Likutei_Moharan.282?lang=he"
+    },
+    "sichot-74": {
+      "book": "שיחות הר״ן",
+      "loc": "סימן עד",
+      "author": "רבי נחמן מברסלב (רשם רבי נתן)",
+      "sefaria": "Sichot HaRan 74",
+      "original": "ואם לפעמים דעתו מבלבל ואינו יכול בשום אפן לשמח עצמו, אז עצתו שיעשה עצמו כאלו הוא שמח, ואף על פי שבתחלה עדין אין השמחה באמת בלב, אף על פי כן על ידי שעושה עצמו כאלו הוא שמח, על ידי זה יזכה אחר כך באמת לשמחה",
+      "status": "verified",
+      "note": "תוקן: קודם צוין בטעות ״ליקוטי מוהר״ן תנינא עד״. המקור הוא שיחות הר״ן עד.",
+      "url": "https://www.sefaria.org.il/Sichot_HaRan.74?lang=he"
+    },
+    "lm1-5": {
+      "book": "ליקוטי מוהר״ן",
+      "loc": "תורה ה",
+      "author": "רבי נחמן מברסלב",
+      "sefaria": "Likutei Moharan 5",
+      "original": "כי צריך כל אדם לומר: כל העולם לא נברא אלא בשבילי (סנהדרין לז). נמצא כשהעולם נברא בשבילי, צריך אני לראות ולעין בכל עת בתקון העולם",
+      "status": "verified",
+      "url": "https://www.sefaria.org.il/Likutei_Moharan.5?lang=he"
+    },
+    "sanhedrin-37a": {
+      "book": "תלמוד בבלי",
+      "loc": "סנהדרין לז ע״א (משנה)",
+      "author": "חז״ל",
+      "sefaria": "Sanhedrin 37a",
+      "original": "לפיכך כל אחד ואחד חייב לומר: בשבילי נברא העולם",
+      "status": "verified",
+      "url": "https://www.sefaria.org.il/Sanhedrin.37a?lang=he"
+    },
+    "sichot-51": {
+      "book": "שיחות הר״ן",
+      "loc": "סימן נא",
+      "author": "רבי נחמן מברסלב (רשם רבי נתן)",
+      "sefaria": "Sichot HaRan 51",
+      "original": "גם אין טוב להיות זקן. הן חסיד זקן, והן צדיק זקן, זקן אין טוב",
+      "status": "verified",
+      "note": "הנוסח המפורסם ״אסור להיות זקן״ הוא לשונו של רבי נתן בליקוטי הלכות, בשם רבי נחמן.",
+      "url": "https://www.sefaria.org.il/Sichot_HaRan.51?lang=he"
+    },
+    "tanya-12": {
+      "book": "תניא",
+      "loc": "ליקוטי אמרים, פרק יב",
+      "author": "אדמו״ר הזקן",
+      "sefaria": "Tanya, Part I; Likkutei Amarim 12",
+      "original": "כמו שהאור יש לו יתרון ושליטה וממשלה על החושך, שמעט אור גשמי דוחה הרבה מן החשך, שנדחה ממנו מאליו וממילא",
+      "status": "verified",
+      "note": "הנוסח המפורסם ״מעט מן האור דוחה הרבה מן החושך״ הוא קיצור עממי; זה הנוסח בתניא.",
+      "url": "https://www.sefaria.org.il/Tanya,_Part_I;_Likkutei_Amarim.12?lang=he"
+    },
+    "tanya-title": {
+      "book": "תניא",
+      "loc": "שער הספר",
+      "author": "אדמו״ר הזקן",
+      "sefaria": "Tanya, Part I; Likkutei Amarim, Title Page",
+      "original": "מיוסד על פסוק ״כי קרוב אליך הדבר מאוד, בפיך ובלבבך לעשותו״; לבאר היטב, איך הוא קרוב מאוד, בדרך ארוכה וקצרה",
+      "status": "verified",
+      "url": "https://www.sefaria.org.il/Tanya,_Part_I;_Likkutei_Amarim,_Title_Page?lang=he"
+    },
+    "deut-30-14": {
+      "book": "תורה",
+      "loc": "דברים ל, יד",
+      "author": "",
+      "sefaria": "Deuteronomy 30:14",
+      "original": "כי קרוב אליך הדבר מאד בפיך ובלבבך לעשתו",
+      "status": "verified",
+      "url": "https://www.sefaria.org.il/Deuteronomy.30.14?lang=he"
+    },
+    "tanya-26": {
+      "book": "תניא",
+      "loc": "ליקוטי אמרים, פרק כו",
+      "author": "אדמו״ר הזקן",
+      "sefaria": "Tanya, Part I; Likkutei Amarim 26",
+      "original": "כי כמו שנצחון לנצח דבר גשמי, כגון שני אנשים המתאבקים זה עם זה להפיל זה את זה, הנה אם האחד הוא בעצלות וכבדות ינוצח בקל ויפול גם אם הוא גבור יותר מחבירו, ככה ממש בנצחון היצר אי אפשר לנצחו בעצלות וכבדות הנמשכות מעצבות וטמטום הלב כאבן, כי אם בזריזות הנמשכת משמחה",
+      "status": "verified",
+      "url": "https://www.sefaria.org.il/Tanya,_Part_I;_Likkutei_Amarim.26?lang=he"
+    },
+    "tanya-32": {
+      "book": "תניא",
+      "loc": "ליקוטי אמרים, פרק לב",
+      "author": "אדמו״ר הזקן",
+      "sefaria": "Tanya, Part I; Likkutei Amarim 32",
+      "original": "ולכן נקראו כל ישראל ״אחים״ ממש, מצד שורש נפשם בה׳ אחד, רק שהגופים מחולקים. ולכן, העושים גופם עיקר ונפשם טפלה – אי אפשר להיות אהבה ואחוה אמיתית ביניהם",
+      "status": "verified",
+      "url": "https://www.sefaria.org.il/Tanya,_Part_I;_Likkutei_Amarim.32?lang=he"
+    },
+    "tanya-4": {
+      "book": "תניא",
+      "loc": "ליקוטי אמרים, פרק ד",
+      "author": "אדמו״ר הזקן",
+      "sefaria": "Tanya, Part I; Likkutei Amarim 4",
+      "original": "ועוד יש לכל נפש אלהית שלשה לבושים, שהם מחשבה דבור ומעשה של תרי״ג מצות התורה",
+      "status": "verified",
+      "url": "https://www.sefaria.org.il/Tanya,_Part_I;_Likkutei_Amarim.4?lang=he"
+    },
+    "tanya-36": {
+      "book": "תניא",
+      "loc": "ליקוטי אמרים, פרק לו",
+      "author": "אדמו״ר הזקן",
+      "sefaria": "Tanya, Part I; Likkutei Amarim 36",
+      "original": "שתכלית בריאת עולם הזה הוא שנתאוה הקדוש ברוך הוא להיות לו דירה בתחתונים",
+      "status": "verified",
+      "note": "על פי מדרש תנחומא, נשא טז.",
+      "url": "https://www.sefaria.org.il/Tanya,_Part_I;_Likkutei_Amarim.36?lang=he"
+    },
+    "tanya-27": {
+      "book": "תניא",
+      "loc": "ליקוטי אמרים, פרק כז",
+      "author": "אדמו״ר הזקן",
+      "sefaria": "Tanya, Part I; Likkutei Amarim 27",
+      "original": "ואם העצבות אינה מדאגת עונות, אלא מהרהורים רעים ותאוות רעות שנופלות במחשבתו... אדרבה! יש לו לשמוח בחלקו, שאף שנופלות לו במחשבתו – הוא מסיח דעתו מהן",
+      "status": "verified",
+      "url": "https://www.sefaria.org.il/Tanya,_Part_I;_Likkutei_Amarim.27?lang=he"
+    },
+    "rambam-teshuva-3-4": {
+      "book": "רמב״ם, משנה תורה",
+      "loc": "הלכות תשובה ג, ד",
+      "author": "הרמב״ם",
+      "sefaria": "Mishneh Torah, Repentance 3:4",
+      "original": "לפיכך צריך כל אדם שיראה עצמו כל השנה כלה כאלו חציו זכאי וחציו חיב, וכן כל העולם חציו זכאי וחציו חיב... עשה מצוה אחת הרי הכריע את עצמו ואת כל העולם כלו לכף זכות",
+      "status": "verified",
+      "note": "הרבי מליובאוויטש הרבה לעורר על הלכה זו.",
+      "url": "https://www.sefaria.org.il/Mishneh_Torah,_Repentance.3.4?lang=he"
+    },
+    "tzemach-tzedek-tracht-gut": {
+      "book": "אמרת הצמח צדק",
+      "loc": "מובאת באגרות קודש אדמו״ר הריי״צ, ח״ה עמ׳ תעד, ופעמים רבות במכתבי הרבי",
+      "author": "הצמח צדק",
+      "original": "טראכט גוט וועט זיין גוט (חשוב טוב, ויהיה טוב)",
+      "status": "secondary",
+      "note": "ההפניה לאגרות קודש לקוחה מקובץ מכתבי הרבי בנושא ביטחון; לא נבדקה בספר עצמו."
+    },
+    "admor-hazaken-im-hazman": {
+      "book": "אמרת אדמו״ר הזקן",
+      "loc": "מסורת חב״ד, כפי שסיפר אדמו״ר הריי״צ",
+      "author": "אדמו״ר הזקן",
+      "original": "מען דארף לעבן מיט דער צייט (צריך לחיות עם הזמן), כלומר עם פרשת השבוע",
+      "status": "secondary",
+      "note": "האמרה מפורסמת מאוד ומובאת בשם אדמו״ר הזקן, אבל המקור הכתוב המדויק לא אותר בבדיקה זו."
+    },
+    "hayom-yom-5-iyar": {
+      "book": "היום יום",
+      "loc": "ה׳ אייר",
+      "author": "הבעל שם טוב (הובא על ידי הרבי)",
+      "original": "נשמה יורדת לעולם הזה וחיה שבעים שמונים שנה, כדי לעשות ליהודי טובה בגשמיות, ובפרט ברוחניות",
+      "status": "secondary",
+      "note": "התאריך והנוסח אומתו מול מקורות משניים (ולא מול הספר עצמו)."
+    },
+    "toldot-shelach-32": {
+      "book": "תולדות יעקב יוסף",
+      "loc": "פרשת שלח",
+      "author": "הבעל שם טוב (רשם תלמידו, רבי יעקב יוסף מפולנאה)",
+      "sefaria": "Toldot Yaakov Yosef, Sh'lach 32",
+      "original": "והנה שמעתי ממורי זלה״ה, מקום שהמחשבה של אדם מגעת שם הוא כולו",
+      "status": "verified",
+      "note": "וכן בכתר שם טוב, ב, יב, ובדגל מחנה אפרים (״במקום שמחשבתו של אדם שם הוא כולו״).",
+      "url": "https://www.sefaria.org.il/Toldot_Yaakov_Yosef,_Sh'lach.32?lang=he"
+    },
+    "bst-esther-5-1": {
+      "book": "בעל שם טוב על התורה",
+      "loc": "מגילת אסתר ה, א",
+      "author": "הבעל שם טוב",
+      "sefaria": "Ba'al Shem Tov, Esther 5:1",
+      "original": "הנה ידוע כי כל מה שאדם רואה או שומע אינו במקרה, רק בכל מקום יש ניצוצות קדושים",
+      "status": "verified",
+      "url": "https://www.sefaria.org.il/Ba'al_Shem_Tov,_Esther.5.1?lang=he"
+    },
+    "toldot-shamati-85": {
+      "book": "תולדות יעקב יוסף",
+      "loc": "אלה הדברים אשר שמעתי ממורי, פה",
+      "author": "הבעל שם טוב (רשם תלמידו)",
+      "sefaria": "Toldot Yaakov Yosef, I heard this from my master 85",
+      "original": "שיתן לב אף בכל דבר מגונה שרואה בחבירו שהוא לתועלת עצמו",
+      "status": "verified",
+      "note": "זה המקור הכתוב לרעיון. הניסוח ״העולם הוא מראה״ הוא ניסוח עממי מאוחר.",
+      "url": "https://www.sefaria.org.il/Toldot_Yaakov_Yosef,_I_heard_this_from_my_master.85?lang=he"
+    },
+    "zusha": {
+      "book": "סיפורי חסידים",
+      "loc": "מסורת בעל פה",
+      "author": "רבי זושא מאניפולי",
+      "original": "",
+      "status": "tradition",
+      "note": "סיפור מפורסם מאוד, מובא בקובצי סיפורי חסידים (למשל אצל מרטין בובר), בלי מקור כתוב קדום ידוע."
+    },
+    "simcha-bunim-pockets": {
+      "book": "קול שמחה",
+      "loc": "פרשת וירא",
+      "author": "רבי שמחה בונים מפשיסחא (רשם תלמידו, רבי זושא מפלאצק)",
+      "original": "שני קעשענעס (כיסים): באחד ״בשבילי נברא העולם״, ובשני ״ואנכי עפר ואפר״",
+      "status": "secondary",
+      "note": "ההפניה ל״קול שמחה״ מופיעה במקורות משניים; לא נבדקה בספר עצמו."
+    },
+    "kotzk-heichan": {
+      "book": "אמרות חסידיות",
+      "loc": "מסורת בעל פה",
+      "author": "מיוחס לרבי מנחם מנדל מקוצק",
+      "original": "",
+      "status": "tradition",
+      "note": "האמרה נפוצה מאוד, אבל לא נמצא לה מקור כתוב, וגם הייחוס לרבי מקוצק לא מבוסס."
+    },
+    "kotzk-lev-shavur": {
+      "book": "אמרות חסידיות",
+      "loc": "מסורת בעל פה",
+      "author": "מיוחס לרבי מנחם מנדל מקוצק",
+      "original": "",
+      "status": "tradition",
+      "note": "מיוחס לרבי מקוצק בעקביות, לפעמים עם ההמשך ״אין זעקה גדולה מהדממה, אין ישר מסולם עקום״. לא נמצא מקור כתוב."
+    },
+    "berditchev-wagon": {
+      "book": "סיפורי חסידים",
+      "loc": "מסורת בעל פה",
+      "author": "רבי לוי יצחק מברדיטשוב",
+      "original": "",
+      "status": "tradition",
+      "note": "סיפור מפורסם על ״סנגורם של ישראל״. לא נמצא מקור כתוב קדום."
+    }
+  }
+}

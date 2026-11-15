@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&family=Frank+Ruhl+Libre:wght@500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=1">
+  <link rel="stylesheet" href="assets/style.css?v=2">
 </head>
 <body data-section="etzot">
   <header id="site-header"></header>
@@ -38,13 +38,13 @@
 
   <footer id="site-footer"></footer>
 
-  <script src="assets/data.js?v=1"></script>
-  <script src="assets/app.js?v=1"></script>
+  <script src="assets/data.js?v=2"></script>
+  <script src="assets/app.js?v=2"></script>
   <script>
-  (function () {
+  sourcesReady.then(function () {
     const state = { topic: 'all', who: 'all', q: '' };
     const topicChips = [['all', 'הכל', ''], ['favs', 'העצות שלי', '★'], ...Object.entries(TOPICS).map(([k, t]) => [k, t.name, t.e])];
-    const whoChips = [['all', 'הכל'], ...Object.entries(SOURCES).map(([k, s]) => [k, s.name])];
+    const whoChips = [['all', 'הכל'], ...Object.entries(TRADITIONS).map(([k, s]) => [k, s.name])];
 
     const chip = (group, key, label, e = '') =>
       `<button type="button" class="chip" data-${group}="${key}" aria-pressed="${state[group] === key}">${e ? `<span aria-hidden="true">${e}</span>` : ''}${label}</button>`;
@@ -62,7 +62,7 @@
         if (state.topic !== 'all' && state.topic !== 'favs' && !e.topics.includes(state.topic)) return false;
         if (state.who !== 'all' && e.who !== state.who) return false;
         if (q) {
-          const hay = strip([e.text, e.src, e.plain, e.act, SOURCES[e.who].name, ...e.topics.map((t) => TOPICS[t].name)].join(' '));
+          const hay = strip([e.text, ...e.refs.map((r) => `${srcLabel(r)} ${SRC[r]?.author || ''}`), e.plain, e.act, TRADITIONS[e.who].name, ...e.topics.map((t) => TOPICS[t].name)].join(' '));
           if (!hay.includes(q)) return false;
         }
         return true;
@@ -90,7 +90,7 @@
       const el = document.querySelector(`.etza[data-id="${h}"]`);
       if (el) { el.scrollIntoView({ block: 'center' }); el.style.borderColor = 'var(--gold)'; }
     }
-  })();
+  });
   </script>
 </body>
 </html>
