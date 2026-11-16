@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>נקודה טובה</title>
+  <meta name="description" content="עצה אחת ליום מרבי נחמן, מחב״ד ומצדיקי החסידות, בשפה פשוטה, עם צעד קטן ומעשי לעבודת ה׳ ולעשיית טוב.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕯️</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&family=Frank+Ruhl+Libre:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css?v=2">
+</head>
+<body data-section="home">
+  <header id="site-header"></header>
+
+  <main class="wrap">
+    <!-- 1. העצה של היום -->
+    <section class="hero">
+      <span class="hebdate" id="hebdate"></span>
+      <h1>נקודה טובה אחת ליום</h1>
+      <p class="lead">עצה מרבי נחמן, מחב״ד ומצדיקי החסידות. בשפה פשוטה, עם צעד אחד קטן לעשות היום.</p>
+      <div id="today"></div>
+      <div class="row">
+        <button type="button" class="btn ghost" id="another">🔄 עוד עצה</button>
+        <a class="btn ghost" href="etzot.html">📚 כל העצות</a>
+      </div>
+    </section>
+
+    <!-- 2. מה עובר עליך -->
+    <section aria-labelledby="mood-h">
+      <h2 id="mood-h">מה עובר עליך עכשיו?</h2>
+      <p class="muted">בחר, ונמצא עצה שמדברת בדיוק לזה.</p>
+      <div class="chips" id="moods"></div>
+      <div id="mood-result" aria-live="polite"></div>
+    </section>
+
+    <!-- 3. מעשה טוב היום -->
+    <section aria-labelledby="deed-h">
+      <h2 id="deed-h">מעשה טוב אחד, היום</h2>
+      <div class="deed">
+        <p class="what" id="deed-text"></p>
+        <div class="deed-bar">
+          <button type="button" class="btn" id="deed-btn">✓ עשיתי</button>
+          <div>
+            <div class="week" id="week" aria-label="השבוע האחרון"></div>
+          </div>
+        </div>
+        <div class="streak" id="streak"></div>
+      </div>
+      <p class="small muted" style="margin-top:10px">״מעט אור גשמי דוחה הרבה מן החושך״ (<a data-src="tanya-12"></a>). המעשה מתחלף כל יום.</p>
+    </section>
+  </main>
+
+  <footer id="site-footer"></footer>
+
+  <script src="assets/data.js?v=2"></script>
+  <script src="assets/app.js?v=2"></script>
+  <script>
+  sourcesReady.then(function () {
+    $('#hebdate').textContent = hebrewDate();
+
+    /* --- העצה של היום (קבועה לכל היום, אותה לכולם) --- */
+    const n = dayNumber();
+    let idx = (n * 7) % ETZOT.length;
+    const today = $('#today');
+    const show = (i, label) => { today.innerHTML = etzaHTML(ETZOT[i], { big: true, label }); };
+    show(idx, 'העצה של היום');
+    $('#another').addEventListener('click', () => {
+      let j;
+      do { j = Math.floor(Math.random() * ETZOT.length); } while (j === idx && ETZOT.length > 1);
+      idx = j;
+      show(idx, 'עוד עצה');
+    });
+
+    /* --- מה עובר עליך --- */
+    const moods = $('#moods');
+    moods.innerHTML = MOODS.map((m) => `<button type="button" class="chip" data-mood="${m.id}" aria-pressed="false"><span aria-hidden="true">${m.e}</span>${m.label}</button>`).join('');
+    const lastShown = {};
+    moods.addEventListener('click', (ev) => {
+      const b = ev.target.closest('.chip');
+      if (!b) return;
+      moods.querySelectorAll('.chip').forEach((c) => c.setAttribute('aria-pressed', c === b));
+      const m = MOODS.find((x) => x.id === b.dataset.mood);
+      const pool = ETZOT.filter((e) => e.topics.some((t) => m.topics.includes(t)));
+      let pick;
+      do { pick = pool[Math.floor(Math.random() * pool.length)]; } while (pool.length > 1 && pick.id === lastShown[m.id]);
+      lastShown[m.id] = pick.id;
+      $('#mood-result').innerHTML = etzaHTML(pick, { label: `${m.e} ${m.label}` })
+        + `<p class="small muted center" style="margin-top:10px">לחיצה נוספת על "${m.label}" תביא עצה אחרת.</p>`;
+    });
+
+    /* --- מעשה טוב היום + רצף --- */
+    const deedText = $('#deed-text'), deedBtn = $('#deed-btn');
+    deedText.textContent = MAASIM[(n * 11) % MAASIM.length];
+    const done = () => store.get('deeds-v1', {});
+    function renderDeed() {
+      const d = done();
+      const isDone = !!d[dayKey()];
+      deedBtn.classList.toggle('done', isDone);
+      deedBtn.textContent = isDone ? '✓ עשית היום. אשריך!' : '✓ עשיתי';
+      deedBtn.setAttribute('aria-pressed', isDone);
+      const names = ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ש'];
+      let html = '';
+      for (let i = 6; i >= 0; i--) {
+        const dt = new Date(); dt.setDate(dt.getDate() - i);
+        html += `<span class="${d[dayKey(dt)] ? 'on' : ''} ${i === 0 ? 'today' : ''}" title="${dt.toLocaleDateString('he-IL')}">${names[dt.getDay()]}</span>`;
+      }
+      $('#week').innerHTML = html;
+      // רצף: ימים ברצף עד היום (או עד אתמול, אם היום עוד לא סומן)
+      let streak = 0;
+      const dt = new Date();
+      if (!d[dayKey(dt)]) dt.setDate(dt.getDate() - 1);
+      while (d[dayKey(dt)]) { streak++; dt.setDate(dt.getDate() - 1); }
+      const total = Object.keys(d).length;
+      $('#streak').textContent = total === 0
+        ? 'כל מעשה טוב נספר. סמן כשעשית, ותראה איך זה מצטבר.'
+        : `🔥 רצף: ${streak} ${streak === 1 ? 'יום' : 'ימים'} · סך הכל ${total} מעשים טובים`;
+    }
+    deedBtn.addEventListener('click', () => {
+      const d = done();
+      const k = dayKey();
+      if (d[k]) delete d[k]; else d[k] = 1;
+      store.set('deeds-v1', d);
+      renderDeed();
+      if (d[k]) toast('יישר כוח! עוד נקודה של אור ✨');
+    });
+    renderDeed();
+  });
+  </script>
+</body>
+</html>
