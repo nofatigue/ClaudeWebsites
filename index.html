@@ -3,129 +3,159 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>בית בלי חפירות</title>
-  <meta name="description" content="המדריך הפשוט והמצחיק לצעירים שרוצים לחסוך, לתכנן ולקנות דירה בישראל, או לגור ביאכטה. עם מפה אישית, מחשבונים ומשחק.">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>">
+  <title>האתרים שלנו</title>
+  <meta name="description" content="פורטל לאתרים: נוסעים הביתה, המדריך לדירה ראשונה בישראל, ונקודה טובה, עצות מהחסידות לעבודת ה׳ ולעשיית טוב.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧭</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=4">
+  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&family=Frank+Ruhl+Libre:wght@500;700&family=Rubik:wght@600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #F6F3EE;
+      --surface: #FFFFFF;
+      --ink: #1E1D2B;
+      --muted: #5F5D6E;
+      --line: #E3DED5;
+      /* נוסעים הביתה */
+      --home-bg: #FFF7E8;
+      --home-ink: #1B1830;
+      --home-primary: #6B3BFF;
+      --home-sun: #FFD23F;
+      /* נקודה טובה */
+      --tova-bg: #FBF6EC;
+      --tova-ink: #1F2340;
+      --tova-gold: #B8862B;
+      --tova-gold-soft: #F4E4C1;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #121220;
+        --surface: #1B1B2C;
+        --ink: #F2EEE6;
+        --muted: #AFADBF;
+        --line: #2D2C42;
+        --home-bg: #1F1C2C;
+        --home-ink: #F4EFE6;
+        --home-primary: #9A7BFF;
+        --tova-bg: #1C2040;
+        --tova-ink: #F3EDE1;
+        --tova-gold: #E2B455;
+        --tova-gold-soft: #3A3220;
+      }
+    }
+    :root[data-theme="dark"] {
+      --bg: #121220;
+      --surface: #1B1B2C;
+      --ink: #F2EEE6;
+      --muted: #AFADBF;
+      --line: #2D2C42;
+      --home-bg: #1F1C2C;
+      --home-ink: #F4EFE6;
+      --home-primary: #9A7BFF;
+      --tova-bg: #1C2040;
+      --tova-ink: #F3EDE1;
+      --tova-gold: #E2B455;
+      --tova-gold-soft: #3A3220;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: var(--bg); color: var(--ink);
+      font-family: "Assistant", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+      font-size: 18px; line-height: 1.6;
+      min-height: 100vh; display: flex; flex-direction: column;
+    }
+    .wrap { max-width: 960px; margin: 0 auto; padding: 0 16px; width: 100%; }
+    header { padding: 64px 0 8px; text-align: center; }
+    h1 { font-size: clamp(2rem, 7vw, 3rem); margin: 0 0 .25em; font-weight: 800; line-height: 1.15; }
+    .lead { color: var(--muted); margin: 0 auto; max-width: 520px; font-size: 1.12rem; }
+    main { flex: 1; padding: 32px 0 56px; }
+    .sites { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+    .site {
+      display: flex; flex-direction: column; gap: 14px;
+      text-decoration: none; border-radius: 24px; padding: 28px 24px 24px;
+      border: 1px solid var(--line); position: relative; overflow: hidden;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .site:hover, .site:focus-visible { transform: translateY(-3px); box-shadow: 0 14px 34px rgba(0, 0, 0, .12); }
+    .site:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+    .site .icon { font-size: 2.4rem; line-height: 1; }
+    .site h2 { margin: 0; font-size: 1.9rem; line-height: 1.2; }
+    .site p { margin: 0; }
+    .site ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+    .site li::before { content: "• "; }
+    .site .go { margin-top: auto; align-self: flex-start; font-weight: 700; border-radius: 999px; padding: 10px 20px; }
+
+    .home { background: var(--home-bg); color: var(--home-ink); border: 2px solid var(--home-ink); box-shadow: 5px 5px 0 var(--home-ink); }
+    .home:hover { box-shadow: 8px 8px 0 var(--home-ink); }
+    .home h2 { font-family: "Rubik", sans-serif; font-weight: 800; }
+    .home .hl { background: var(--home-sun); color: #1B1830; padding: 0 6px; border-radius: 6px; }
+    .home .go { background: var(--home-primary); color: #fff; border: 2px solid var(--home-ink); }
+
+    .tova { background: var(--tova-bg); color: var(--tova-ink); }
+    .tova h2 { font-family: "Frank Ruhl Libre", serif; font-weight: 700; }
+    .tova .dot { display: inline-block; width: 14px; height: 14px; border-radius: 50%; background: var(--tova-gold); box-shadow: 0 0 0 5px var(--tova-gold-soft); vertical-align: middle; margin-left: 10px; }
+    .tova blockquote { margin: 0; font-family: "Frank Ruhl Libre", serif; font-size: 1.15rem; border-right: 3px solid var(--tova-gold); padding-right: 12px; }
+    .tova .go { background: var(--tova-ink); color: var(--tova-bg); }
+
+    footer { border-top: 1px solid var(--line); color: var(--muted); font-size: .92rem; padding: 22px 0 32px; text-align: center; }
+    .theme-btn { position: absolute; top: 14px; left: 16px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; width: 38px; height: 38px; cursor: pointer; font-size: 1rem; }
+    @media (prefers-reduced-motion: reduce) { .site { transition: none; } }
+  </style>
 </head>
-<body data-section="home">
-  <header id="site-header"></header>
+<body>
+  <button type="button" class="theme-btn" id="theme-btn" aria-label="החלפת מצב תצוגה">◐</button>
+  <header>
+    <div class="wrap">
+    <h1>לאן נוסעים היום?</h1>
+    <p class="lead">שני אתרים, שתי דרכים לבנות בית: אחד מלבנים ומשכנתא, ואחד מנקודות טובות.</p>
+    </div>
+  </header>
 
   <main class="wrap">
-    <!-- מוצג למי שעוד לא בנה מפה -->
-    <section class="hero" id="hero-new">
-      <span class="kicker">דירה בישראל? כן, באמת 🤯</span>
-      <h1>להגיע לבית <span class="highlight">בלי לאבד את השפיות.</span></h1>
-      <p class="lead">המדריך לצעירים שרוצים לחסוך, לתכנן, ובסוף גם לקבל מפתח.
-        או לגור ביאכטה. גם זה בסדר, אנחנו לא שופטים.</p>
-      <div class="cta-row">
-        <button type="button" class="btn" data-act="onboard">🗺️ בנו לי מפה אישית (30 שניות)</button>
-        <a class="btn alt" href="game.html">🎮 או קודם לשחק</a>
-      </div>
-    </section>
+    <div class="sites">
+      <a class="site home" href="habayta/index.html">
+        <span class="icon" aria-hidden="true">🏠</span>
+        <h2>נוסעים <span class="hl">הביתה</span></h2>
+        <p>המדריך הפשוט (והקצת מצחיק) לצעירים שרוצים לחסוך, לתכנן ולקנות דירה בישראל. או לחיות אחרת.</p>
+        <ul>
+          <li>מפה אישית ומחשבונים חיים</li>
+          <li>משכנתא, מס רכישה ומענקים, בלי פאניקה</li>
+          <li>משחק החיים: מגיל 23 עד 35</li>
+        </ul>
+        <span class="go">לנסוע הביתה ←</span>
+      </a>
 
-    <!-- מוצג למי שכבר בנה מפה -->
-    <section class="hero" id="hero-map" hidden>
-      <span class="kicker">היי, חזרתם! 👋</span>
-      <h1>המפה <span class="highlight">שלכם.</span></h1>
-      <div class="card map-card" id="map"></div>
-    </section>
-
-    <section class="game-banner">
-      <div>
-        <h2>🎮 משחק החיים: מגיל 23 עד 35</h2>
-        <p>שכירות או ההורים? תאילנד או קרן מחקה מדד? יאכטה? 12 שנים, 12 החלטות, וחתול אחד שישבור לכם טלוויזיה.</p>
-      </div>
-      <a class="btn sun" href="game.html">לשחק ←</a>
-    </section>
-
-    <section>
-      <form class="card calc" data-calc="savings" data-personas aria-labelledby="savings-title">
-        <div class="calc-head"><span class="emoji" aria-hidden="true">⏳</span>
-          <h2 id="savings-title">כמה זמן ייקח לי לחסוך להון עצמי?</h2></div>
-        <div class="fields">
-          <div class="field">
-            <label for="s-price">מחיר הדירה שאתם חולמים עליה (₪)</label>
-            <input id="s-price" name="price" data-p="price" data-range="200000,5000000,10000" value="1800000">
-          </div>
-          <div class="field">
-            <label for="s-pct">מי אתם? <span class="hint">(קובע כמה הון עצמי צריך)</span></label>
-            <select id="s-pct" name="pct" data-p="pct">
-              <option value="25" selected>דירה ראשונה: 25%</option>
-              <option value="30">משפרי דיור: 30%</option>
-              <option value="50">משקיעים / דירה נוספת: 50%</option>
-              <option value="100">יאכטה / קנייה במזומן: 100%</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="s-saved">כמה כבר חסכתם (₪)</label>
-            <input id="s-saved" name="saved" data-p="saved" data-range="0,1500000,5000" value="50000">
-          </div>
-          <div class="field">
-            <label for="s-monthly">כמה אתם חוסכים בחודש (₪)</label>
-            <input id="s-monthly" name="monthly" data-p="monthly" data-range="0,20000,100" value="3000">
-          </div>
-          <div class="field">
-            <label for="s-ret">תשואה שנתית על החיסכון (%) <span class="hint">(עו״ש = 0, השקעה סולידית ≈ 3–5)</span></label>
-            <input id="s-ret" name="ret" data-range="0,10,0.5" value="4">
-          </div>
-        </div>
-        <div class="result" aria-live="polite">
-          <div class="result-grid">
-            <div>
-              <span class="label">תגיעו ליעד בעוד</span>
-              <span class="big" data-out="big"></span>
-              <p class="quip" data-out="quip"></p>
-            </div>
-            <div class="house" aria-hidden="true">
-              <svg viewBox="0 0 100 104">
-                <defs><clipPath id="houseClip"><path d="M50 6 L94 44 L84 44 L84 100 L16 100 L16 44 L6 44 Z"/></clipPath></defs>
-                <path d="M50 6 L94 44 L84 44 L84 100 L16 100 L16 44 L6 44 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
-                <rect class="house-fill-rect" clip-path="url(#houseClip)" x="0" y="100" width="100" height="0" fill="var(--sun)"/>
-                <path d="M50 6 L94 44 L84 44 L84 100 L16 100 L16 44 L6 44 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
-              </svg>
-              <b data-out="done">0%</b>כבר בכיס
-            </div>
-          </div>
-          <div class="row"><span data-out="target"></span></div>
-          <div class="row"><span data-out="boost"></span></div>
-          <div class="chart" data-chart></div>
-        </div>
-        <p class="assumptions">הנחות: עלויות נלוות (עו״ד, שמאי, תיווך וכו׳) כ־3% מהמחיר. המחיר לא עולה בזמן שאתם חוסכים (אופטימי, אנחנו יודעים).</p>
-      </form>
-    </section>
-
-    <section>
-      <h2>שלוש דלתות. תבחרו אחת.</h2>
-      <div class="doors">
-        <a class="door bg-sun" href="basics.html">
-          <span class="emoji" aria-hidden="true">🧱</span>
-          <h3>עקרונות יסוד</h3>
-          <p>לחסוך, לממן, לקנות. שלושה צעדים, בלי ז׳רגון של בנקאים.</p>
-          <span class="go">יאללה ←</span>
-        </a>
-        <a class="door bg-mint" href="alt.html">
-          <span class="emoji" aria-hidden="true">🛥️</span>
-          <h3>דרכים אחרות לחיות</h3>
-          <p>יאכטה, קיבוץ, שכירות חכמה ומענקים שלא ידעתם שמגיעים לכם.</p>
-          <span class="go">תפתיעו אותי ←</span>
-        </a>
-        <a class="door bg-sky" href="tricks.html">
-          <span class="emoji" aria-hidden="true">⚡</span>
-          <h3>טריקים במשפט</h3>
-          <p>משפט אחד. רעיון אחד. אפס חפירות. אחד מהם יחסוך לכם אלפים.</p>
-          <span class="go">תנו טריק ←</span>
-        </a>
-      </div>
-    </section>
-
+      <a class="site tova" href="chizuk/index.html">
+        <span class="icon" aria-hidden="true">🕯️</span>
+        <h2><span class="dot" aria-hidden="true"></span>נקודה טובה</h2>
+        <p>עצות מרבי נחמן, מחב״ד ומצדיקי החסידות לעבודת ה׳ ולהתחזקות בעשיית טוב. בשפה פשוטה, עם צעד אחד ליום.</p>
+        <blockquote>״מִצְוָה גְּדוֹלָה לִהְיוֹת בְּשִׂמְחָה תָּמִיד״</blockquote>
+        <ul>
+          <li>עצה ליום, ועצה לפי מה שעובר עליך</li>
+          <li>מעשה טוב אחד, היום</li>
+          <li>כל מקור מאומת ומקושר לספריא</li>
+        </ul>
+        <span class="go">לעצה של היום ←</span>
+      </a>
+    </div>
   </main>
 
-  <footer id="site-footer"></footer>
-  <script src="assets/app.js?v=4"></script>
-  <script src="assets/home.js?v=4"></script>
+  <footer>
+    <div class="wrap">כל המידע האישי באתרים נשמר רק בדפדפן שלכם.</div>
+  </footer>
+
+  <script>
+    (function () {
+      const get = () => { try { return JSON.parse(localStorage.getItem('theme')); } catch (e) { return null; } };
+      const apply = (t) => { if (t) document.documentElement.setAttribute('data-theme', t); else document.documentElement.removeAttribute('data-theme'); };
+      apply(get());
+      document.getElementById('theme-btn').addEventListener('click', () => {
+        const cur = document.documentElement.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        const next = cur === 'dark' ? 'light' : 'dark';
+        apply(next);
+        try { localStorage.setItem('theme', JSON.stringify(next)); } catch (e) { /* בלי זיכרון */ }
+      });
+    })();
+  </script>
 </body>
 </html>

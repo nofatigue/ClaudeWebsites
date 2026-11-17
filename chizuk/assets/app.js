@@ -1,6 +1,6 @@
 /* ===== הגדרות כלליות ===== */
 const SITE_NAME = 'נקודה טובה';
-const VERSION = 2; // להעלות בכל עדכון, יחד עם ?v= בקבצי ה-HTML
+const VERSION = 3; // להעלות בכל עדכון, יחד עם ?v= בקבצי ה-HTML
 
 const NAV = [
   ['index.html', 'היום', 'home'],
@@ -184,6 +184,7 @@ function renderChrome() {
     f.innerHTML = `<div class="wrap">
       <p>"${SITE_NAME}": עצות מרבי נחמן, מחב״ד ומצדיקי החסידות, לעבודת ה׳ ולהתחזקות בעשיית טוב.</p>
       <p>הדברים מובאים לחיזוק ולהשראה. לשאלות הלכה ולהדרכה אישית, פנו לרב. גרסה ${VERSION}.</p>
+      <p><a href="../index.html">← לכל האתרים</a> · <a href="../habayta/index.html">נוסעים הביתה: מדריך לדירה ראשונה</a></p>
     </div>`;
   }
 }
