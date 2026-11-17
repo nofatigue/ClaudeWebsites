@@ -1,7 +1,7 @@
 /* ===== הגדרות כלליות — כאן משנים את שם האתר ===== */
-const SITE_NAME = 'שם זמני';
+const SITE_NAME = 'נוסעים הביתה';
 const UPDATED = 'נובמבר 2026';
-const VERSION = 4; // להעלות בכל עדכון, יחד עם ?v= בקבצי ה-HTML
+const VERSION = 5; // להעלות בכל עדכון, יחד עם ?v= בקבצי ה-HTML
 
 const NAV = [
   ['index.html', 'בית', 'home'],
@@ -253,6 +253,7 @@ function openBadges() {
         ומתייעצים עם בעלי מקצוע.</p>
         <p>הנתונים האישיים שלכם נשמרים רק בדפדפן שלכם, ולא נשלחים לשום מקום.</p>
         <p>עודכן לאחרונה: ${UPDATED} · גרסה ${VERSION} · ${SITE_NAME} · נבנה באהבה ובקצת חרדה מהמשכנתא 🫠</p>
+        <p><a href="../index.html">← לכל האתרים</a> · <a href="../chizuk/index.html">נקודה טובה: עצות מהחסידות</a></p>
       </div>`;
   }
   if (['basics', 'alt', 'tricks'].includes(section)) setTimeout(() => XP.award(`visit_${section}`), 600);
